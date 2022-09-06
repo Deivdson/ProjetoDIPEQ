@@ -20,6 +20,10 @@ class Sensor(models.Model):
     yuauc   = models.FloatField()       # Ângulo entre Tensão Fase B e Fase C
     yubuc   = models.FloatField()       # Ângulo entre Tensão Fase B e Fase C
     tpsd    = models.FloatField()       # Temperatura
+    def __str__(self):
+        return self.titulo
+    class Meta:
+        verbose_name_plural = 'Sensores'
 
 class Fase(models.Model):
     tipo    = ('A'),('B'),('C')
@@ -33,3 +37,14 @@ class Fase(models.Model):
     ep      = models.FloatField()       # Consumo de energia ativa
     eq      = models.FloatField()       # Consumo de eneergia reativa
     sensor  = models.ForeignKey(Sensor, on_delete = models.CASCADE, null=True) 
+    def __str__(self):
+        return self.tipo
+
+class Consumo(models.Model):
+    data = models.DateTimeField()
+    inicio = models.FloatField()
+    fim = models.FloatField()
+    total = models.FloatField()
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)
