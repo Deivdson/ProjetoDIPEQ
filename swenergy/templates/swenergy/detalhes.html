@@ -5,14 +5,19 @@
 </head>
 <body>
     <h2>{{sensor.titulo}}</h2>
-    
+    <section>
+    Fases e valores:
     {% for fase in sensor.fase_set.all %}
     <h3>Fase {{fase}}</h3> 
     {% endfor %}
+    </section>
 
+    <section>
+    Consumo:
     {% for consumo in sensor.consumo_set.all %}
     <h3>Data: {{consumo.data}} - Consumo total: {{consumo.total}}</h3>
     {% endfor %}
-
+    </section>
+    
 </body>
 </html>

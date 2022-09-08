@@ -8,13 +8,15 @@ from django.db import models
 class index(View):
     def get(self,request,*args,**kwargs):
         sensores = Sensor.objects.all()
-        data = models.JSONField(request.GET)
-        contexto = {'sensores':sensores, 'data':data}
+        data = request.GET
+        sec =  self.request.session
+        json = models.JSONField(request.GET)
+        contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json}
 
         return render(request,'swenergy/index.html', contexto)
     
     def post(self,request,*args,**kwargs):
-        contexto = {'data':request.POST}
+        contexto = {'data':request.POST, 'msg':'Metodo POST'}
         sensor = Sensor()
         pt      = request.POST['pt']
         qt      = request.POST['qt']

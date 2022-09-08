@@ -11,7 +11,9 @@
     -->
 </head>
 <body>
-
+    {% if msg %}
+    {{msg}}
+    {% endif %}
     <h1>Tela Inicial</h1>
 
     <div id="chartDiv" style="width: 540px; height: 325px">Gráfico</div>
@@ -25,6 +27,21 @@
     <section>
         Data:
         <p>{{data}}</p>
+        JSON:
+        <p>{{json}}</p>
+        Sessão:
+        <p>{{session}}</p>
+        Args:
+        <p>{{args}}</p>
+        Kwargs:
+        <p>{{kwargs}}</p>
+
+        <br>
+
+        Atributos:
+        <ul>
+            <li>pt: {{pt}}</li>
+        </ul>>
      
     </section>
     <!--

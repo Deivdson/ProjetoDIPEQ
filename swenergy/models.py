@@ -26,7 +26,8 @@ class Sensor(models.Model):
         verbose_name_plural = 'Sensores'
 
 class Fase(models.Model):
-    tipo    = ('A'),('B'),('C')
+    #tipo    = ('A'),('B'),('C')
+    tipo    = models.CharField(max_length=2, null=True)
     p       = models.FloatField()       # Potência ativa
     q       = models.FloatField()       # Potência reativa
     s       = models.FloatField()       # Potência aparente
@@ -47,4 +48,4 @@ class Consumo(models.Model):
     total = models.FloatField()
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, null=True)
     def __str__(self):
-        return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)
+        return str(('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total))
