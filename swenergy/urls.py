@@ -10,4 +10,6 @@ app_name = 'swenergy'
 urlpatterns = [
     path('', views.index.as_view(), name='index'),
     path('detalhes/<int:pk>/', views.detalhes.as_view(), name='detalhes'),
+    path('addSensor/', views.addSensor.as_view(), name='addSensor'),
+    path('editar/<int:pk>/', views.editar.as_view(), name='editar'),
 ]

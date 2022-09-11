@@ -26,7 +26,8 @@ class Sensor(models.Model):
         verbose_name_plural = 'Sensores'
 
 class Fase(models.Model):
-    tipo    = ('A'),('B'),('C')
+    #tipo    = ('A'),('B'),('C')
+    tipo    = models.CharField(max_length=2, null=True)
     p       = models.FloatField()       # Potência ativa
     q       = models.FloatField()       # Potência reativa
     s       = models.FloatField()       # Potência aparente
@@ -35,7 +36,7 @@ class Fase(models.Model):
     pf      = models.FloatField()       # Fator de potência 
     pg      = models.FloatField()       # Ângulo entre a tensão e corrente
     ep      = models.FloatField()       # Consumo de energia ativa
-    eq      = models.FloatField()       # Consumo de eneergia reativa
+    eq      = models.FloatField()       # Consumo de energia reativa
     sensor  = models.ForeignKey(Sensor, on_delete = models.CASCADE, null=True) 
     def __str__(self):
         return self.tipo

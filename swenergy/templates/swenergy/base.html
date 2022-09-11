@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        {% block head %}
+        <meta charset="UTF-8">
+        <title>Base</title>
+        {% endblock %}
+    </head>
+    <body>
+        {% block main-menu %}
+        <fieldset style="padding: 3px;">
+            <ul style="display:flex; gap:50px; list-style-type:none;">
+                <li><a href=" {% url 'swenergy:index' %}">Início</a></li>
+                <li><a href=" {% url 'swenergy:addSensor' %}">Novo sensor</a></li>
+                <li><a href="#">Logout</a></li>
+            </ul>
+        </fieldset><br>
+        {% endblock %}
+
+        {% block msg %}
+
+            {% if msg %}
+            <span style="background-color:darkslategrey; color:aliceblue;">
+                {{msg}}
+            </span>
+            {% endif %}
+
+            {% if msg_sucess %}
+            <span style="background-color: darkslategrey; color:mediumspringgreen;">
+                {{msg_sucess}}
+            </span>
+            {% endif %}
+            
+            {% if msg_erro %}
+            <span style="background-color: darkslategrey; color:crimson;">
+                {{msg_erro}}
+            </span>
+            {% endif %}
+        
+        {% endblock %}
+
+        {% block conteudo %}
+        {% endblock %}
+    </body>
+</html>
