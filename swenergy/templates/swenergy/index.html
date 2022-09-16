@@ -17,9 +17,9 @@
         function drawChart() {
           {% for sensor in sensores %}
           var data = google.visualization.arrayToDataTable([
-            ["Element", "Density", { role: "style" } ],
+            ["Data", "KWh", { role: "style" } ],
             {% for consumo in sensor.consumo_set.all %}
-            ['{{consumo.data}}', {{ consumo.total }}, "#b87333"],
+            ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
             {% endfor %}
           ]);
     
