@@ -1,16 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Sensor, Fase
+from .models import Sensor, Fase, Consumo
 from django.db import models
 
 # Create your views here.
 class index(View):
     def get(self,request,*args,**kwargs):
         sensores = Sensor.objects.all()
+        consumos = Consumo.objects.all()
         data = request.GET
         sec =  self.request.session
         json = models.JSONField(request.GET)
-        contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json}
+        contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
 
         return render(request,'swenergy/index.html', contexto)
     

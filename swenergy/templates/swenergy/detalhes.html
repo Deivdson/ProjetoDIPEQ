@@ -28,16 +28,17 @@
                 <a href="{% url 'swenergy:editar' sensor.id %}">Editar</a>
             </button>
         </fieldset>
-        <fieldset style="width: 400px;">
+        <fieldset style="width: 60%;">
         <h2>{{sensor.titulo}}</h2>
         
         {% for fase in sensor.fase_set.all %}
         <h3>Fase {{fase}}</h3> 
         {% endfor %}
 
-        Consumos diarios:
+        Consumos diários:
+        <br><br>
         {% for consumo in sensor.consumo_set.all %}
-        <h3>Data: {{consumo.data}} - Consumo total: {{consumo.total}}</h3>
+        <strong>Data:</strong> {{consumo.data}} <br><strong>Consumo total:</strong> {{consumo.total}}<br><br>
         {% endfor %}
         </fieldset>
     </section>
