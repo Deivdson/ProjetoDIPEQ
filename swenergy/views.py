@@ -2,8 +2,14 @@ from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Sensor, Fase, Consumo
 from django.db import models
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 # Create your views here.
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
 class index(View):
     def get(self,request,*args,**kwargs):
         sensores = Sensor.objects.all()
@@ -55,7 +61,22 @@ class editar(View):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         return render(request, 'swenergy/editar.html', {'sensor':sensor})
     def post(self,request,*args,**kwargs):
-        sensor = get_object_or_404(Sensor, pk=kwargs[request.POST['id']])
+        sensor = get_object_or_404(Sensor, pk=request.POST['id'])
         sensor.titulo = request.POST['titulo']
         sensor.save()
         return render(request, 'swenergy/detalhes.html', {'sensor':sensor, 'msg_sucess':'Edições salvas!'})
+
+class cadastro(View):
+    def get(self,request,*args,**kwargs):
+        return render(request,'swenergy/cadastro.html')
+
+    def post(self,request,*args,**kwargs):
+        username = request.POST['username']
+        nome = request.POST['nome']
+        senha = request.POST['senha']
+
+        user = User.objects.create_user(username, 'email', senha)
+        user.first_name = nome
+        user.save()
+        sensores = Sensor.objects.all()
+        return render(request, 'swenergy/index.html', {'sensores':sensores, 'msg_sucess':'sucesso'})

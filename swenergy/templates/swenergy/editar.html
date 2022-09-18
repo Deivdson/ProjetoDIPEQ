@@ -28,7 +28,7 @@
         <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
             <form action="" method="post">
             {% csrf_token %}
-                <input type="hidden" value="{{sensor.id}}">
+                <input type="hidden" value="{{sensor.id}}" name="id">
                 <span>ID: {{sensor.id}}</span><br>
                 <label for="titulo">Nome do sensor:</label><br>
                 <input type="text" name="titulo" id="titulo" value="{{sensor.titulo}}">

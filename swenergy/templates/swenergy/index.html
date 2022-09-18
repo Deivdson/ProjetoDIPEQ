@@ -3,13 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    {% block head %}
-    <meta charset="UTF-8">
-    <title>SW Energy</title>
-    <!--
-    <script type="text/javascript" src="/JSC/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="/JSC/JSCharting.js"></script>
-    -->
+  {% block scripts %}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", {packages:['corechart']});
@@ -47,17 +41,6 @@
 </head>
 {% block conteudo %}
 <body>
-  <style>
-    body{
-        font-size: 20pt;
-    }
-    input{
-        font-size: 30pt;
-    }
-    button{
-        font-size: 30pt;
-    }
-  </style>
     <script type="text/javascript" src="https://jscharting.com/JSC15/JSCharting.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
@@ -99,7 +82,7 @@
           Atributos:
           <ul>
               <li>pt: {{pt}}</li>
-          </ul>>
+          </ul>
       
       </section>
     </fieldset>

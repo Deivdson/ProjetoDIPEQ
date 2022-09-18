@@ -3,16 +3,36 @@
     <head>
         {% block head %}
         <meta charset="UTF-8">
-        <title>Base</title>
+        <title>SW - Energy</title>
+        {% endblock %}
+        {% block scripts %}
         {% endblock %}
     </head>
     <body>
+        {% block style %}
+        <style>
+            body{
+                font-size: 20pt;
+            }
+            input{
+                font-size: 30pt;
+            }
+            button{
+                font-size: 30pt;
+            }
+        </style>
+        {% endblock %}
         {% block main-menu %}
         <fieldset style="padding: 3px;">
             <ul style="display:flex; gap:50px; list-style-type:none;">
                 <li><a href=" {% url 'swenergy:index' %}">Início</a></li>
                 <li><a href=" {% url 'swenergy:addSensor' %}">Novo sensor</a></li>
-                <li><a href="#">Logout</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'login'%}">Login</a></li>
+                <li><a href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
+                {% endif %}
             </ul>
         </fieldset><br>
         {% endblock %}
