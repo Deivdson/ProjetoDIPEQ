@@ -8,7 +8,7 @@
         <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
         
             <form action="{% url 'swenergy:cadastro' %}" method="post">
-            {% csrf_token %} 
+                {% csrf_token %} 
                 Nome:  
                 <input type="text" name="nome" /><br>
                 UserName:

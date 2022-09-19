@@ -38,24 +38,36 @@ class index(View):
         tpsd    = request.POST['tpsd']
         return render(request,'swenergy/index.html',contexto)
 
-
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
 class detalhes(View):
     def get(self, request, *args, **kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         return render(request, 'swenergy/detalhes.html', {'sensor':sensor})
 
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
 class addSensor(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'swenergy/formSensor.html')
     
     def post(self, request, *args, **kwargs):
         sensor  = Sensor(titulo=request.POST['titulo'])
+        sensor.save()
         fa      = Fase(tipo='A', sensor = sensor)
         fb      = Fase(tipo='B', sensor = sensor)
         fc      = Fase(tipo='C', sensor = sensor)
+        fa.save()
+        fb.save()
+        fc.save()
         contexto = {'sensor':sensor, 'msg':'Sensor cadastrado!'}
         return render(request, 'swenergy/detalhes.html',contexto)
 
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
 class editar(View):
     def get(self,request,*args,**kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
