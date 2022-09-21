@@ -6,19 +6,44 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
+from django.http import HttpResponse, HttpRequest
+import json
+
+from django.http import StreamingHttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
 )
 class index(View):
+    #@csrf_exempt
     def get(self,request,*args,**kwargs):
         sensores = Sensor.objects.all()
         consumos = Consumo.objects.all()
         data = request.GET
         sec =  self.request.session
-        json = models.JSONField(request.GET)
-        contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
+        json = models.JSONField(str(HttpRequest.body))
 
+        url = '/'
+        headers={'Content-Type': 'application/json'}
+        response = request.get(url, headers=headers)
+        response = json.loads(response.content)
+
+        resultado = response
+        
+        #data = json.loads(request.body)
+
+        #try:
+            #data = json.loads(request.body)
+            #label = data['label']
+            #url = data ['url']
+            #print label, url
+        #except:
+            #return HttpResponse("Malformed data!")
+        #return HttpResponse("Got json data")
+        contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
+        contexto['resultado'] = resultado
         return render(request,'swenergy/index.html', contexto)
     
     def post(self,request,*args,**kwargs):
