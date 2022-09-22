@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse, HttpRequest, JsonResponse
 import json
 
 from django.http import StreamingHttpResponse
@@ -27,10 +27,10 @@ class index(View):
 
         url = '/'
         headers={'Content-Type': 'application/json'}
-        response = request.get(url, headers=headers)
-        response = json.loads(response.content)
+        #response = requests.get(url, headers=headers)
+        #response = json.loads(response.content)
 
-        resultado = response
+        #resultado = response
         
         #data = json.loads(request.body)
 
@@ -43,7 +43,7 @@ class index(View):
             #return HttpResponse("Malformed data!")
         #return HttpResponse("Got json data")
         contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
-        contexto['resultado'] = resultado
+        #contexto['resultado'] = resultado
         return render(request,'swenergy/index.html', contexto)
     
     def post(self,request,*args,**kwargs):
@@ -117,3 +117,18 @@ class cadastro(View):
         user.save()
         sensores = Sensor.objects.all()
         return render(request, 'swenergy/index.html', {'sensores':sensores, 'msg_sucess':'sucesso'})
+
+class IndexViewJSON(View):
+    def get(self, request, *args, **kwargs):
+        sensores = Sensor.objects.all()
+        contexto = {'sensor_list': sensores}
+        return render(
+                    request, 'swenergy/data.json',contexto,
+                    content_type='application/json'
+                    )
+                
+class GetDataAPI(View):
+    def get(self, request, *args, **kwargs):
+        sensores = Sensor.objects.all()
+        contexto = {'sensor_list': sensores}
+        return JsonResponse(list(sensores.values()), safe = False)

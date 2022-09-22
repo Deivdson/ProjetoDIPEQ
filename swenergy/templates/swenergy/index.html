@@ -56,9 +56,42 @@
         {% endfor %}
     </ul>
 
+    <fieldset>Gráficos:
     {% for sensor in sensores %}
     <div id="{{sensor}}" style="width: 900px; height: 300px;"></div>
     {% endfor %}
+    </fieldset>
+
+    <section class="options">
+      <a href="{% url 'swenergy:get_data' %}">Data</a> |
+      <a href="niveis.html">Níveis de energia</a> |
+      <a href="#">Matérias</a>
+    </section>
+
+    <section id="conteudo">
+    </section>
+
+    <script src="{% static 'swenergy/js/script.js' %}"></script>
+
+    <script>
+      document.querySelectorAll('.options a').forEach(link => {
+        link.onclick = function (e) {
+          e.preventDefault()
+
+          const conteudo = document.getElementById('conteudo')
+          fetch(link.href)
+            .then(resp => resp.text())
+            .then(html => (conteudo.innerHTML = html))
+        }
+      })
+    </script>
+
+    <script>
+        function redireciona(){
+        var search = document.getElementById("search").value;
+        location.href="{% url 'swenergy:index' %}" + search;
+        }
+    </script>
 
     <br><br>
     <br><br>
