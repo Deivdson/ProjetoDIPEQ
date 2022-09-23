@@ -132,3 +132,8 @@ class GetDataAPI(View):
         sensores = Sensor.objects.all()
         contexto = {'sensor_list': sensores}
         return JsonResponse(list(sensores.values()), safe = False)
+
+class NiveisEnergia(View):
+    def get(self, request, *args, **kwargs):
+        sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
+        return render(request, 'swenergy/niveis.html', {'sensor':sensor})

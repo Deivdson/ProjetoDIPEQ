@@ -15,5 +15,7 @@ urlpatterns = [
     path('addSensor/', views.addSensor.as_view(), name='addSensor'),
     path('editar/<int:pk>/', views.editar.as_view(), name='editar'),
     path('cadastro/', views.cadastro.as_view(), name='cadastro'),
-    path('login/', auth_views.LoginView.as_view(template_name='swenergy/login.html'), name = 'login')
+    path('login/', auth_views.LoginView.as_view(template_name='swenergy/login.html'), name = 'login'),
+
+    path('niveis/<int:pk>/', views.NiveisEnergia.as_view(), name='niveis')
 ]
