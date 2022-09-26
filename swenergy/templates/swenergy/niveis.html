@@ -14,18 +14,18 @@
      
              var data = google.visualization.arrayToDataTable([
                ['Label', 'Value'],
-               ['pt', 80],
-               ['qt', 55],
-               ['st', 68],
-               ['itrms', 50],
-               ['pft', 66],
-               ['freq',23],
-               ['ept', 32],
-               ['eqt', 76],
-               ['yuaub', 35],
-               ['yuauc', 56],
-               ['yubuc', 100],
-               ['tpsd', 45] 
+               ['pt', {{sensor.pt}}],
+               ['qt', {{sensor.qt}}],
+               ['st', {{sensor.st}}],
+               ['itrms', {{sensor.itrms}}],
+               ['pft', {{sensor.pft}}],
+               ['freq',{{sensor.freq}}],
+               ['ept', {{sensor.ept}}],
+               ['eqt', {{sensor.eqt}}],
+               ['yuaub', {{sensor.yuaub}}],
+               ['yuauc', {{sensor.yuauc}}],
+               ['yubuc', {{sensor.yubuc}}],
+               ['tpsd', {{sensor.tpsd}}] 
              ]);
      
              var options = {
@@ -94,6 +94,7 @@
     <body>          
         {% block conteudo %}    
         <div id="chart_div" style="width: 800px; height: 240px;"></div>
+        
         {% endblock %}
        
     </body>

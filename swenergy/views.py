@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Sensor, Fase, Consumo
+from .utils import GeraPDFMixin
 from django.db import models
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from reportlab.pdfgen import canvas
 
 from django.http import HttpResponse, HttpRequest, JsonResponse
 import json
+from django.template.loader import get_template
+from io import BytesIO
 
 from django.http import StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -137,3 +141,37 @@ class NiveisEnergia(View):
     def get(self, request, *args, **kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         return render(request, 'swenergy/niveis.html', {'sensor':sensor})
+
+class RelatorioPDF(View, GeraPDFMixin):
+    def get(self, request, *args, **kwargs):
+        sensores = Sensor.objects.all()
+        dados = {
+            'sensores': sensores,
+        }
+        pdf = GeraPDFMixin()
+        return pdf.render_to_pdf('swenergy/relatoriopdf.html', dados)
+
+def GeraPDF(request):
+    # Create the HttpResponse object with the appropriate PDF headers.
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="relatorio.pdf"'
+
+    # Create the PDF object, using the response object as its "file."
+    p = canvas.Canvas(response)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    sensores = Sensor.objects.all()
+    consumos = Consumo.objects.all()
+    texto = list(sensores.values())
+    template = get_template('swenergy/relatoriopdf.html')
+    html = template.render({'sensores':sensores})
+    p.drawString(10, 10, 
+    "Lista de sensores: "
+    )
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+    return response
+

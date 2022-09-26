@@ -1,5 +1,5 @@
 {
-    "Sensores": [{% for sensor in sensore_list %}
+    "Sensores": [{% for sensor in sensor_list %}
         {
             "Sensor": "{{sensor}}",
             "Consumos": [{% for consumo in sensor.consumo_set.all %}

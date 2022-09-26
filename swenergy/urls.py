@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import views as auth_views
 
 from django.views.generic import TemplateView
+
+from swenergy.utils import GeraPDFMixin
 from . import views
 
 app_name = 'swenergy'
@@ -17,5 +19,9 @@ urlpatterns = [
     path('cadastro/', views.cadastro.as_view(), name='cadastro'),
     path('login/', auth_views.LoginView.as_view(template_name='swenergy/login.html'), name = 'login'),
 
-    path('niveis/<int:pk>/', views.NiveisEnergia.as_view(), name='niveis')
+    path('niveis/<int:pk>/', views.NiveisEnergia.as_view(), name='niveis'),
+    #testePDF
+    path('relatorio/', views.GeraPDF, name='relatorio'),
+    #SerializadorPDF
+    path('relatoriopdf/', views.RelatorioPDF.as_view(), name='relatoriopdf')
 ]
