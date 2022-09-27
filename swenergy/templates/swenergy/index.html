@@ -47,7 +47,10 @@
 
     <h1>Tela Inicial</h1>
 
-    <a href="http://127.0.0.1:8000/relatoriopdf/" download="Relatorio.pdf">Download Text</a><br>
+    <a href="http://127.0.0.1:8000/relatoriopdf/" download="Relatorio.pdf">Baixar relatório</a> - 
+    <a href="{% url 'swenergy:relatoriopdf' %}"> Ver relátorio geral</a>
+    <br>
+    <br>
 
 
     <label>Sensores:</label>
@@ -58,7 +61,7 @@
         {% endfor %}
     </ul>
 
-    <fieldset>Gráficos:
+    <fieldset>Consumo diário por sensor:
     {% for sensor in sensores %}
     <div id="{{sensor}}" style="width: 900px; height: 300px;"></div>
     {% endfor %}

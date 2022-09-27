@@ -51,50 +51,92 @@
                data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
                chart.draw(data, options);
              }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-           }
+
+
+             var dataF = google.visualization.arrayToDataTable([
+              ['Label', 'Value'],
+              ['p', {{sensor.pt}}],
+              ['q', {{sensor.qt}}],
+              ['s', {{sensor.st}}],
+              ['urms', {{sensor.itrms}}],
+              ['itrms', {{sensor.itrms}}],
+              ['pf', {{sensor.pft}}],
+              ['pg', {{sensor.ept}}],
+              ['eq', {{sensor.eqt}}]                        
+            ]);
+
+            var optionsF = {
+              width: 800, height: 240,
+              redFrom: 90, redTo: 100,
+              yellowFrom:75, yellowTo: 90,
+              minorTicks: 5
+            };
+
+            var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FA'));
+
+            chartF.draw(dataF, optionsF);
+
+            var dataF = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['p', {{sensor.pt}}],
+            ['q', {{sensor.qt}}],
+            ['s', {{sensor.st}}],
+            ['urms', {{sensor.itrms}}],
+            ['itrms', {{sensor.itrms}}],
+            ['pf', {{sensor.pft}}],
+            ['pg', {{sensor.ept}}],
+            ['eq', {{sensor.eqt}}]                        
+          ]);
+
+          var optionsF = {
+            width: 800, height: 240,
+            redFrom: 90, redTo: 100,
+            yellowFrom:75, yellowTo: 90,
+            minorTicks: 5
+          };
+
+          var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FB'));
+
+          chartF.draw(dataF, optionsF);
+
+          var dataF = google.visualization.arrayToDataTable([
+          ['Label', 'Value'],
+          ['p', {{sensor.pt}}],
+          ['q', {{sensor.qt}}],
+          ['s', {{sensor.st}}],
+          ['urms', {{sensor.itrms}}],
+          ['itrms', {{sensor.itrms}}],
+          ['pf', {{sensor.pft}}],
+          ['pg', {{sensor.ept}}],
+          ['eq', {{sensor.eqt}}]                        
+        ]);
+
+        var optionsF = {
+          width: 800, height: 240,
+          redFrom: 90, redTo: 100,
+          yellowFrom:75, yellowTo: 90,
+          minorTicks: 5
+        };
+
+        var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FC'));
+
+        chartF.draw(dataF, optionsF);
+          }
+           
          </script>
          {% endblock %}
     </head>
     <body>          
-        {% block conteudo %}    
+        {% block conteudo %}   
+        <h2>Geral:</h2> 
         <div id="chart_div" style="width: 800px; height: 240px;"></div>
-        
+
+        <h2>Fase A</h2>
+        <div id="chart_div_FA" style="width: 800px; height: 240px;"></div>
+        <h2>Fase B</h2>
+        <div id="chart_div_FB" style="width: 800px; height: 240px;"></div>
+        <h2>Fase C</h2>
+        <div id="chart_div_FC" style="width: 800px; height: 240px;"></div>
         {% endblock %}
        
     </body>
