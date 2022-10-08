@@ -3,6 +3,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  {% block head %}
+    <meta charset="UTF-8">
+    <title>SW - Energy</title>
+    <meta http-equiv="refresh" content="5; {% url 'swenergy:index' %}">
+  {% endblock %}
   {% block scripts %}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
@@ -103,7 +108,7 @@
     <br><br>
     <fieldset>
       Dados gerais:
-      <section>
+      <secntion>
           Data:
           <p>{{data}}</p>
           JSON:

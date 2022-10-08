@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 from .models import Sensor, Fase, Consumo
-from .utils import GeraPDFMixin
+from .utils import GeraPDFMixin, Email
 from django.db import models
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,7 @@ from django.http import HttpResponse, HttpRequest, JsonResponse
 import json
 from django.template.loader import get_template
 from io import BytesIO
+#import wget
 
 from django.http import StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -142,6 +143,18 @@ class NiveisEnergia(View):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         return render(request, 'swenergy/niveis.html', {'sensor':sensor})
 
+class EnviarAlerta(View):
+    def get(self, request, *args, **kwargs):
+        msgRetorno = 'Email enviado com sucesso'
+        email = Email()
+        email.send('Teste de envio', 'Testando envio de email', ['deividson.silva@escolar.ifrn.edu.br'])
+        try:
+            email.send('Teste de envio', 'Testando envio de email', ['deividson.silva@escolar.ifrn.edu.br'])
+        except:
+            msgRetorno = 'Falha no envio'
+        return render(request,'swenergy/index.html', {'msg':msgRetorno})
+
+
 class RelatorioPDF(View, GeraPDFMixin):
     def get(self, request, *args, **kwargs):
         sensores = Sensor.objects.all()
@@ -174,4 +187,10 @@ def GeraPDF(request):
     p.showPage()
     p.save()
     return response
+
+def get_relatorio(request):
+    wget.download("127.0.0.1:8000/relatoriopdf")
+    return HttpResponse
+
+
 

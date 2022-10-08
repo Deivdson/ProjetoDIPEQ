@@ -23,5 +23,10 @@ urlpatterns = [
     #testePDF
     path('relatorio/', views.GeraPDF, name='relatorio'),
     #SerializadorPDF
-    path('relatoriopdf/', views.RelatorioPDF.as_view(), name='relatoriopdf')
+    path('relatoriopdf/', views.RelatorioPDF.as_view(), name='relatoriopdf'),
+    #Baixar relatorio
+    path('getRelatorio/', views.get_relatorio, name='getRelatorio'),
+
+    #alertas
+    path('enviarAlerta/', views.EnviarAlerta.as_view(), name='alerta')
 ]

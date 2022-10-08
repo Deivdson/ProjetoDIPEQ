@@ -3,6 +3,7 @@ from io import BytesIO
 from django.template.loader import get_template
 from xhtml2pdf import pisa
 from django.http import HttpResponse
+from django.core.mail import send_mail
 
 class GeraPDFMixin:
     def render_to_pdf(self, template_end, context_dict={}):
@@ -17,4 +18,10 @@ class GeraPDFMixin:
         except Exception as e:
             print(e)
             return None
+
+class Email:
+    def send(self, assunto, mensagem, destino):
+        send_mail(assunto, mensagem, 'equipe.swenergy@gmail.com', destino, fail_silently=False)
+
+
 
