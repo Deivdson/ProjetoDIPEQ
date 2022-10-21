@@ -6,9 +6,10 @@
   {% block head %}
     <meta charset="UTF-8">
     <title>SW - Energy</title>
-    <meta http-equiv="refresh" content="5; {% url 'swenergy:index' %}">
+    <!--<meta http-equiv="refresh" content="5; {% url 'swenergy:index' %}">-->
   {% endblock %}
-  {% block scripts %}
+  {% block scripts %} 
+
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript">
         google.charts.load("current", {packages:['corechart']});
@@ -42,6 +43,9 @@
           {% endfor %}
       }
     </script>
+
+    <script src="{% static 'swenergy/js/script.js' %}"></script>
+
     {% endblock %}
 </head>
 {% block conteudo %}
@@ -72,40 +76,44 @@
     {% endfor %}
     </fieldset>
 
+    <iframe src="niveis.html" width="500" height="500"></iframe>
+
+    
+
+    <br><br>
+    <br><br>
     <section class="options">
-      <a href="{% url 'swenergy:get_data' %}">Data</a> |
-      <a href="niveis.html">Níveis de energia</a> |
-      <a href="#">Matérias</a>
+      <a href="/api/data/">Data</a>
+       | 
+      <a href="/niveis/1/">Níveis de energia</a>
+       | 
+      <a href="/data/">Relatório</a>
     </section>
 
     <section id="conteudo">
     </section>
 
-    <script src="{% static 'swenergy/js/script.js' %}"></script>
-
+    <br><br>
+    <br><br>
+    <br><br>
     <script>
       document.querySelectorAll('.options a').forEach(link => {
-        link.onclick = function (e) {
+      link.onclick = function (e) {
           e.preventDefault()
 
           const conteudo = document.getElementById('conteudo')
           fetch(link.href)
-            .then(resp => resp.text())
-            .then(html => (conteudo.innerHTML = html))
-        }
+          .then(resp => resp.text())
+          .then(html => (conteudo.innerHTML = html))
+      }
       })
     </script>
-
     <script>
-        function redireciona(){
-        var search = document.getElementById("search").value;
-        location.href="{% url 'swenergy:index' %}" + search;
-        }
+      function redireciona(){
+      var search = document.getElementById("search").value;
+      location.href="{% url 'swenergy:index' %}" + search;
+      }
     </script>
-
-    <br><br>
-    <br><br>
-    <br><br>
     <fieldset>
       Dados gerais:
       <secntion>

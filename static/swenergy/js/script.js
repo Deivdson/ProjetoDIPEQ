@@ -24,3 +24,23 @@ function toggleMenu() {
     document.querySelector('#sidebar').style.marginLeft = `-${menuSize}`;
 }
 
+
+
+
+document.querySelectorAll('.options a').forEach(link => {
+link.onclick = function (e) {
+    e.preventDefault()
+
+    const conteudo = document.getElementById('conteudo')
+    fetch(link.href)
+    .then(resp => resp.text())
+    .then(html => (conteudo.innerHTML = html))
+}
+})
+
+
+
+function redireciona(){
+var search = document.getElementById("search").value;
+location.href="{% url 'swenergy:index' %}" + search;
+}

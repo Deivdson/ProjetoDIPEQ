@@ -50,7 +50,7 @@ class index(View):
         contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
         #contexto['resultado'] = resultado
         return render(request,'swenergy/index.html', contexto)
-    
+    @csrf_exempt
     def post(self,request,*args,**kwargs):
         contexto = {'data':request.POST, 'msg':'Metodo POST'}
         sensor = Sensor()
@@ -141,7 +141,10 @@ class GetDataAPI(View):
 class NiveisEnergia(View):
     def get(self, request, *args, **kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
-        return render(request, 'swenergy/niveis.html', {'sensor':sensor})
+        faseA = Fase.objects.get(tipo='A')
+        faseB = Fase.objects.get(tipo='C')
+        faseC = Fase.objects.get(tipo='B')
+        return render(request, 'swenergy/niveis.html', {'sensor':sensor, 'faseA':faseA, 'faseB':faseB, 'faseC':faseC})
 
 class EnviarAlerta(View):
     def get(self, request, *args, **kwargs):
@@ -189,7 +192,7 @@ def GeraPDF(request):
     return response
 
 def get_relatorio(request):
-    wget.download("127.0.0.1:8000/relatoriopdf")
+    #wget.download("127.0.0.1:8000/relatoriopdf")
     return HttpResponse
 
 
