@@ -1,0 +1,26 @@
+{% extends "swenergy/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+{% block conteudo %}
+<body>
+    <section style="padding-left: 600px;">
+        <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
+        
+            <form action="{% url 'swenergy:cadastro' %}" method="post">
+                {% csrf_token %} 
+                Nome:  
+                <input type="text" name="nome" /><br>
+                UserName:
+                <input type="text" name="username" /><br>
+                Senha:
+                <input type="password" name="senha" /><br>
+            
+                <input type="submit" value="Cadastrar" />
+            </section>
+        </form>
+        
+    </section>
+</body>
+{% endblock %}
+</html>

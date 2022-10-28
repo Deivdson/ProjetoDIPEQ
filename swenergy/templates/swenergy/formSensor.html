@@ -1,0 +1,32 @@
+{% extends "swenergy/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário Sensor</title>
+</head>
+<body>
+    
+    {% block conteudo %}
+    <fieldset style="padding: 50px 50px 450px 550px;">
+    <header>
+        <h2>Cadastre um novo sensor</h2>
+    </header>
+    <section>
+        <fieldset style="width: 80px; padding: 10px 30px;">
+            <form action="{% url 'swenergy:addSensor' %}" method="post">
+            {% csrf_token %}
+                <label for="titulo">Insira o nome do sensor:</label><br>
+                <input type="text" name="titulo" id="titulo">
+                <br>
+                <br>
+                <input type="submit" style="width: 200px; padding:5px 5px 5px 5px;">
+            </form>
+        </fieldset>
+    </section>
+    </fieldset>
+    <footer> &#xa9; SWEnergy</footer>
+    {% endblock %}
+</body>
+</html>

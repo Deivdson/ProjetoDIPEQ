@@ -1,0 +1,51 @@
+{% extends "swenergy/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+    <title>Detalhes do Sensor</title>
+    <meta charset="UTF-8">
+    {% endblock %}
+</head>
+<body>
+    {% block main-menu %}
+    {% endblock %}
+    {% block conteudo %}
+    <h2>Relatório de Consumo</h2>
+    <hr>
+    {% for sensor in sensores %}
+        <fieldset style="width: 60%;">
+        
+        <h3>{{sensor.titulo}}</h3>
+        
+        {% for fase in sensor.fase_set.all %}
+        
+        <h3>Fase {{fase}}</h3>
+        <ul>            
+            <li>Potência ativa: {{fase.p}}</li>
+            <li>Potência reativa: {{fase.q}}</li>
+            <li>Potência aparente: {{fase.s}}</li>
+            <li>Tensão: {{fase.urms}}</li>
+            <li>Corrente: {{fase.itrms}}</li>
+            <li>Fator de potência: {{fase.pf}}</li>
+            <li>Ângulo entre a tensão e corrente: {{fase.pg}}</li>
+            <li>Consumo de energia ativa: {{fase.ep}}</li>
+            <li>Consumo de energia reativa: {{fase.eq}}</li>
+        </ul><br>
+    
+        {% endfor %}
+
+        Consumos diários:
+        <br><br>
+        {% for consumo in sensor.consumo_set.all %}
+        <strong>Data:</strong> {{consumo.data.day}} / {{consumo.data.month}} / {{consumo.data.year}} <br>
+        <strong>Consumo total:</strong> {{consumo.total}}<br><br>
+        {% endfor %}
+        </fieldset>
+    </section>
+    {% endfor %}
+    {% endblock %}
+    
+</body>
+</html>

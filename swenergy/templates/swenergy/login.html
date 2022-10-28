@@ -1,0 +1,51 @@
+{% extends "swenergy/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+{% block main-menu %}
+        
+{% endblock %}
+{% block conteudo %}
+<body>
+    
+
+    {% if form.errors %}
+    {% for error in form.erros %}
+        {{ error }}
+    {% endfor %}
+    {% endif %}
+
+    <section style="padding-left: 600px;">
+        <h2>Faça o seu Login</h2>
+        <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
+
+            <form id="contact" action="{% url 'swenergy:login' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+            <div class="row">
+                <div class="col-md-12">
+                    <fieldset>
+                    Digite o seu login: {{ form.username }}
+                    </fieldset>
+                </div>
+                <div class="col-md-12">
+                    <fieldset>
+                    Digite a sua senha: {{ form.password }}
+                    </fieldset>
+                </div>
+                <div>
+                <fieldset>
+                    <input type="submit" id="form-submit" class="button" value="Realizar Login"/>
+                </fieldset>
+                </div>
+            </div>
+            </form>
+        </fieldset>
+        <p>Não possui cadastro? <a href="{% url 'swenergy:cadastro' %}"> Cadastre-se!</a></p>
+    </section>
+
+</body>
+{% endblock %}
+</html>
