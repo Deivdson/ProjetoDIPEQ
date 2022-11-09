@@ -21,7 +21,7 @@ class GeraPDFMixin:
 
 class Email:
     def send(self, assunto, mensagem, destino):
-        send_mail(assunto, mensagem, 'equipe.swenergy@gmail.com', destino, fail_silently=False)
+        send_mail(assunto, mensagem, 'equipe.swenergy@outlook.com', destino, fail_silently=False)
 
 
 
