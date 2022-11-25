@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Sensor, Fase, Consumo
+from .models import Sensor, Fase, Consumo, Predio
 from .utils import GeraPDFMixin, Email
 from django.db import models
 from django.utils.decorators import method_decorator
@@ -94,6 +94,18 @@ class addSensor(View):
         fc.save()
         contexto = {'sensor':sensor, 'msg':'Sensor cadastrado!'}
         return render(request, 'swenergy/detalhes.html',contexto)
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
+class addPredio(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'swenergy/formPredio.html')
+    
+    def post(self, request, *args, **kwargs):
+        predio  = Predio(nome=request.POST['nome'])
+        predio.save()
+        contexto = {'predio':predio, 'msg':'Edifício cadastrado!'}
+        return render(request, 'swenergy/detalhesPredio.html',contexto)
 
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'

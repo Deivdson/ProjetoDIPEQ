@@ -1,0 +1,59 @@
+{% extends "swenergy/base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+    <title>Detalhes do Edifício</title>
+    <meta charset="UTF-8">
+    {% endblock %}
+</head>
+<body>
+    
+    {% block conteudo %}
+    <style>
+        body{
+            font-size: 30pt;
+        }
+        input{
+            font-size: 30pt;
+        }
+        button{
+            font-size: 30pt;
+        }
+    </style>
+    <section style="padding-left: 500px;">
+        <fieldset style="width: 200px;">
+            <button>
+                <a href="{% url 'swenergy:editar' sensor.id %}">Editar</a>
+            </button>
+        </fieldset>
+        <fieldset style="width: 60%;">
+        <h2>{{predio.titulo}}</h2>
+        
+        {% for sensor in predio.sensor_set.all %}
+        <h3>Fase {{sensor}}</h3>
+        <ul>            
+            <li>Potência ativa:                     {{sensor}}</li>
+            <li>Potência reativa:                   {{sensor}}</li>
+            <li>Potência aparente:                  {{sensor}}</li>
+            <li>Tensão:                             {{sensor}}</li>
+            <li>Corrente:                           {{sensor}}</li>
+            <li>Fator de potência:                  {{sensor}}</li>
+            <li>Ângulo entre a tensão e corrente:   {{sensor}}</li>
+            <li>Consumo de energia ativa:           {{sensor}}</li>
+            <li>Consumo de energia reativa:         {{sensor}}</li>
+        </ul><br>
+        Consumo do Mês:
+        <br><br>
+        {% for consumo in sensor.consumo_set.all %}
+        <strong>Data:</strong> {{consumo.data}} <br><strong>Consumo total:</strong> {{consumo.total}}<br><br>
+        {% endfor %}
+
+        {% endfor %}
+        </fieldset>
+    </section>  
+    {% endblock %}
+    
+</body>
+</html>
