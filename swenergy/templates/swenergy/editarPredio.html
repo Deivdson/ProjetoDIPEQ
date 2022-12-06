@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário Sensor</title>
+</head>
+<body>
+    <style>
+        input{
+            font-size: 30pt;
+        }
+        button{
+            font-size: 30pt;
+        }
+    </style>
+
+    <fieldset style="padding: 50px 50px 450px 80px;">
+
+        <button>
+            <a href="{% url 'swenergy:indexPredio' predio.id %}">
+                Voltar/Cancelar
+            </a>
+        </button>
+    <header style="padding-left: 600px; font-size:30pt;">
+        <h2>Edição de Edifício</h2>
+    </header>
+    <section style="padding-left: 600px;">
+        <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
+            <form action="{% url 'swenergy:editarPredio' predio.id%}" method="post">
+            {% csrf_token %}
+                <input type="hidden" value="{{predio.id}}" name="id">
+                <span>ID: {{predio.id}}</span><br>
+                <label for="nome">Nome do Edifício:</label><br>
+                <input type="text" name="nome" id="nome" value="{{predio.nome}}">
+                <label for="co2">Insira o índice de CO2:</label><br>
+                <input type="text" name="co2" id="co2"  value="{{predio.Co2}}">
+                <br>
+                <label for="kwh">Insira a média de KWh por:</label><br>
+                <input type="text" name="kwh" id="kwh"  value="{{predio.KHW}}">
+                <br>
+                <label for="economico">Valor economizado total:</label><br>
+                <input type="text" name="economico" id="economico"  value="{{predio.economico}}">
+                <br>
+                <label for="meta">Meta:</label><br>
+                <input type="text" name="meta" id="meta" value="{{predio.meta}}">
+                <br>
+                <label for="area">Área total do edifício:</label><br>
+                <input type="text" name="area" id="area" value="{{predio.area}}">
+                <br>
+                <label for="pop">População total:</label><br>
+                <input type="text" name="pop" id="pop" value="{{predio.População}}">
+                <br>
+                <label for="pav">Pavimentos:</label><br>
+                <input type="text" name="pav" id="pav" value="{{predio.Pavimentos}}">
+                <br>
+                <label for="pi">Post.Inst.:</label><br>
+                <input type="text" name="pi" id="pi" value="{{predio.PostInst}}">
+                <br>
+                <label for="GFV">Geração FV? S/N:</label><br>
+                {% if predio.geracaoFV == true %}
+                <input type="radio" name="GFV" id="S" value="1" checked>
+                <label for="GFV">Sim</label>
+                <input type="radio" name="GFV" id="N" value="2">
+                <label for="GFV">Não</label>
+                {% else %}
+                <input type="radio" name="GFV" id="S" value="1">
+                <label for="GFV">Sim</label>
+                <input type="radio" name="GFV" id="N" value="2" checked>
+                <label for="GFV">Não</label>
+                {% endif %}
+                <br>
+                <label for="idade">Idade:</label><br>
+                <input type="text" name="idade" id="idade" value="{{predio.idade}}">
+                <br>
+                <br>
+                <input type="submit" value="Salvar modificações">
+            </form>
+        </fieldset>
+    </section>
+    </fieldset>
+    <footer> &#xa9; SWEnergy</footer>
+</body>
+</html>

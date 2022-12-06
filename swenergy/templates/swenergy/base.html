@@ -20,12 +20,31 @@
             button{
                 font-size: 30pt;
             }
+
+            table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            margin: 10px;
+            margin-left: 40%;
+            }
+
+            td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            }
+
+            tr:nth-child(even) {
+            background-color: #dddddd;
+            }
         </style>
         {% endblock %}
         {% block main-menu %}
         <fieldset style="padding: 3px;">
             <ul style="display:flex; gap:50px; list-style-type:none;">
                 <li><a href=" {% url 'swenergy:index' %}">Início</a></li>
+                <li><a href=" {% url 'swenergy:indexPredio' predio.id %}">Edifício: {{predio.nome}}</a></li>
                 <li><a href=" {% url 'swenergy:addSensor' %}">Novo sensor</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
@@ -36,7 +55,7 @@
             </ul>
         </fieldset><br>
         {% endblock %}
-
+        
         {% block msg %}
 
             {% if msg %}
@@ -58,6 +77,8 @@
             {% endif %}
         
         {% endblock %}
+        
+        
 
         {% block conteudo %}
         {% endblock %}

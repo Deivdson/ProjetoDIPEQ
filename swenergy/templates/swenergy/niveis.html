@@ -8,218 +8,139 @@
         <!--<meta http-equiv="refresh" content="5; {% url 'swenergy:niveis' sensor.id %}">-->
         {% endblock %}
 
-
         {% block scripts %}
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-
-          google.charts.load('current', {'packages':['gauge']});
-          google.charts.setOnLoadCallback(drawChart);
-
-           function drawChart() {
-          
-             var data = google.visualization.arrayToDataTable([
-               ['Label', 'Value'],
-               ['pt', {{sensor.pt}}],
-               ['qt', {{sensor.qt}}],
-               ['st', {{sensor.st}}],
-               ['itrms', {{sensor.itrms}}],
-               ['pft', {{sensor.pft}}],
-               ['freq',{{sensor.freq}}],
-               ['ept', {{sensor.ept}}],
-               ['eqt', {{sensor.eqt}}],
-               ['yuaub', {{sensor.yuaub}}],
-               ['yuauc', {{sensor.yuauc}}],
-               ['yubuc', {{sensor.yubuc}}],
-               ['tpsd', {{sensor.tpsd}}] 
-             ]);
-     
-             var options = {
-               width: 800, height: 240,
-               redFrom: 90, redTo: 100,
-               yellowFrom:75, yellowTo: 90,
-               minorTicks: 5
-             };
-     
-             var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-     
-             chart.draw(data, options);
-
-             setInterval(function() {
-               data.setValue(0, 1, {{sensor.pt}});
-               chart.draw(data, options);
-             }, 3000);
-             setInterval(function() {
-               data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-               chart.draw(data, options);
-             }, 3000);
-             setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 3000);
-             setInterval(function() {
-               data.setValue(3, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(4, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(5, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(6, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(7, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(8, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(9, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(10, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(11, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-            
-            
-             var dataF = google.visualization.arrayToDataTable([
-              ['Label', 'Value'],
-              ['p', {{faseA.p}}],
-              ['q', {{faseA.q}}],
-              ['s', {{faseA.s}}],
-              ['urms', {{faseA.urms}}],
-              ['itrms', {{faseA.itrms}}],
-              ['pf', {{faseA.pf}}],
-              ['pg', {{faseA.pg}}],
-              ['eq', {{faseA.eq}}]                        
-            ]);
-
-            var optionsF = {
-              width: 800, height: 240,
-              redFrom: 90, redTo: 100,
-              yellowFrom:75, yellowTo: 90,
-              minorTicks: 5
-            };
-
-            var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FA'));
-
-            chartF.draw(dataF, optionsF);
-
-            
-
-            setInterval(function() {
-               data.setValue(0, 1, {{sensor.pt}});
-               chart.draw(data, options);
-             }, 13000);
-             setInterval(function() {
-               data.setValue(13, 1, 40 + Math.round(60 * Math.random()));
-               chart.draw(data, options);
-             }, 5000);
-             setInterval(function() {
-               data.setValue(14, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(15, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(16, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(17, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(18, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(19, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(20, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-
-
-             var dataF = google.visualization.arrayToDataTable([
-              ['Label', 'Value'],
-              ['p', {{faseB.p}}],
-              ['q', {{faseB.q}}],
-              ['s', {{faseB.s}}],
-              ['urms', {{faseB.urms}}],
-              ['itrms', {{faseB.itrms}}],
-              ['pf', {{faseB.pf}}],
-              ['pg', {{faseB.pg}}],
-              ['eq', {{faseB.eq}}]                        
-            ]);
-
-            var optionsF = {
-              width: 800, height: 240,
-              redFrom: 90, redTo: 100,
-              yellowFrom:75, yellowTo: 90,
-              minorTicks: 5
-            };
-
-            var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FB'));
-
-            chartF.draw(dataF, optionsF);
-
-            var dataF = google.visualization.arrayToDataTable([
-              ['Label', 'Value'],
-              ['p', {{faseC.p}}],
-              ['q', {{faseC.q}}],
-              ['s', {{faseC.s}}],
-              ['urms', {{faseC.urms}}],
-              ['itrms', {{faseC.itrms}}],
-              ['pf', {{faseC.pf}}],
-              ['pg', {{faseC.pg}}],
-              ['eq', {{faseC.eq}}]                        
-            ]);
-
-          var optionsF = {
-            width: 800, height: 240,
-            redFrom: 90, redTo: 100,
-            yellowFrom:75, yellowTo: 90,
-            minorTicks: 5
-          };
-
-          var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FC'));
-
-          chartF.draw(dataF, optionsF);
-        }
         
-         </script>
-         {% endblock %}
+        
+        {% endblock %}
     </head>
     <body>          
         {% block conteudo %}   
         <h2>Geral:</h2> 
+
+        <h3>{{sensor.time}}</h3>
+
+            {% for fase in sensor.fase_set.all %}
+            
+            <table>
+                <tr>
+                    <th colspan="3">Fase {{fase}}</th>
+                </tr>
+                <tr>            
+                    <td>Potência ativa</td> 
+                    <td id="p{{fase.id}}">{{fase.p}}</td>
+                </tr>
+                <tr>
+                    <td>Potência reativa</td>
+                    <td>{{fase.q}}</td>
+                </tr>
+                <tr>
+                    <td>Potência aparente</td>
+                    <td>{{fase.s}}</td>
+                </tr>
+                <tr>
+                    <td>Tensão</td> 
+                    <td>{{fase.urms}}</td>
+                </tr>
+                <tr>
+                    <td>Corrente</td>
+                    <td>{{fase.itrms}}</td>
+                </tr>
+                <tr>
+                    <td>Fator de potência</td>
+                    <td>{{fase.pf}}</td>
+                </tr>
+                <tr>
+                    <td>Ângulo entre a tensão e corrente</td>
+                    <td>{{fase.pg}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia ativa</td>
+                    <td>{{fase.ep}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia reativa</td>
+                    <td>{{fase.eq}}</td>
+                </tr>
+            <br>
+            </table>
+            {% endfor %}
+
+        <div id="tables" style="height: 50%; width:50% ;">
+
+        </div>
+
         <div id="chart_div" style="width: 800px; height: 240px;"></div>
 
         <h2>Fase A</h2>
-        <div id="chart_div_FA" style="width: 800px; height: 240px;"></div>
+        <div id="chart_div_FA" style="width: 800px; height: 240px;">
+            <table>
+                <tr>
+                    <th colspan="3">Fase {{fase}}</th>
+                </tr>
+                <tr id="tr1">            
+                    <td>Potência ativa</td> 
+                    <td id="p"></td>
+                </tr>
+                <tr>
+                    <td>Potência reativa</td>
+                    <td>{{fase.q}}</td>
+                </tr>
+                <tr>
+                    <td>Potência aparente</td>
+                    <td>{{fase.s}}</td>
+                </tr>
+                <tr>
+                    <td>Tensão</td> 
+                    <td>{{fase.urms}}</td>
+                </tr>
+                <tr>
+                    <td>Corrente</td>
+                    <td>{{fase.itrms}}</td>
+                </tr>
+                <tr>
+                    <td>Fator de potência</td>
+                    <td>{{fase.pf}}</td>
+                </tr>
+                <tr>
+                    <td>Ângulo entre a tensão e corrente</td>
+                    <td>{{fase.pg}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia ativa</td>
+                    <td>{{fase.ep}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia reativa</td>
+                    <td>{{fase.eq}}</td>
+                </tr>
+            <br>
+            </table>
+        </div>
         <h2>Fase B</h2>
         <div id="chart_div_FB" style="width: 800px; height: 240px;"></div>
         <h2>Fase C</h2>
         <div id="chart_div_FC" style="width: 800px; height: 240px;"></div>
         {% endblock %}
-       
+        <script>
+            let x = document.getElementById('p');
+            x.innerText = "djdj"
+            
+            console.log(x);
+            let td = document.createElement('td');
+            td.innerText="isisi"
+            let tr = document.getElementById('tr1');
+            tr.append(td);
+            let s = document.getElementsByTagName('td');
+            s[2].innerText = "jdjsa"
+        </script>
     </body>
 </html>
+
+
+
+
+
+
+
+
