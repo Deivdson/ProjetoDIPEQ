@@ -19,6 +19,11 @@ urlpatterns = [
     path('cadastro/', views.cadastro.as_view(), name='cadastro'),
     path('login/', auth_views.LoginView.as_view(template_name='swenergy/login.html'), name = 'login'),
 
+    path('indexPredio/<int:pk>/', views.indexPredio.as_view(), name='indexPredio'),
+    path('addPredio/', views.addPredio.as_view(), name='addPredio'),
+    path('editarPredio/<int:pk>/', views.editarPredio.as_view(), name='editarPredio'),
+    path('detalhesPredio/<int:pk>/', views.detalhesPredio.as_view(), name='detalhesPredio'),
+
     path('niveis/<int:pk>/', views.NiveisEnergia.as_view(), name='niveis'),
     #testePDF
     path('relatorio/', views.GeraPDF, name='relatorio'),

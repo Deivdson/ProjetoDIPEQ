@@ -7,7 +7,14 @@
     <title>Formulário de Edifício</title>
 </head>
 <body>
-    
+    {% block main-menu %}
+        <fieldset style="padding: 3px;">
+            <ul style="display:flex; gap:50px; list-style-type:none;">
+                <li><a href=" {% url 'swenergy:index' %}">Início</a></li>                                
+                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>                                
+            </ul>
+        </fieldset><br>
+        {% endblock %}
     {% block conteudo %}
     <fieldset style="padding: 50px 50px 450px 550px;">
     <header>
@@ -32,8 +39,8 @@
                 <label for="meta">Meta:</label><br>
                 <input type="text" name="meta" id="meta">
                 <br>
-                <label for="ed">Área total do edifício:</label><br>
-                <input type="text" name="ed" id="ed">
+                <label for="area">Área total do edifício:</label><br>
+                <input type="text" name="area" id="area">
                 <br>
                 <label for="pop">População total:</label><br>
                 <input type="text" name="pop" id="pop">
@@ -44,8 +51,11 @@
                 <label for="pi">Post.Inst.:</label><br>
                 <input type="text" name="pi" id="pi">
                 <br>
-                <label for="FV">Geração FV:</label><br>
-                <input type="text" name="FV" id="FV">
+                <label for="GFV">Geração FV? S/N:</label><br>
+                <input type="radio" name="GFV" id="S" value="1">
+                <label for="GFV">Sim</label>
+                <input type="radio" name="GFV" id="N" value="2">
+                <label for="GFV">Não</label>
                 <br>
                 <label for="idade">Idade:</label><br>
                 <input type="text" name="idade" id="idade">

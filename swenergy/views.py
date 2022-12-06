@@ -24,6 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 class index(View):
     #@csrf_exempt
     def get(self,request,*args,**kwargs):
+        predios = Predio.objects.all()
         sensores = Sensor.objects.all()
         consumos = Consumo.objects.all()
         data = request.GET
@@ -47,7 +48,7 @@ class index(View):
         #except:
             #return HttpResponse("Malformed data!")
         #return HttpResponse("Got json data")
-        contexto = {'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
+        contexto = {'predios':predios,'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
         #contexto['resultado'] = resultado
         return render(request,'swenergy/index.html', contexto)
     @csrf_exempt
@@ -67,6 +68,18 @@ class index(View):
         yubuc   = request.POST['yubuc']
         tpsd    = request.POST['tpsd']
         return render(request,'swenergy/index.html',contexto)
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
+class indexPredio(View):
+    #@csrf_exempt
+    def get(self,request,*args,**kwargs):
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        contexto = {'predio':predio}
+        return render(request,'swenergy/indexPredio.html', contexto)
+
+    def post(self,request,*args,**kwargs):
+        pass
 
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
@@ -74,7 +87,16 @@ class index(View):
 class detalhes(View):
     def get(self, request, *args, **kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
-        return render(request, 'swenergy/detalhes.html', {'sensor':sensor})
+        predio = sensor.predio
+        return render(request, 'swenergy/detalhes.html', {'sensor':sensor, 'predio':predio})
+
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
+class detalhesPredio(View):
+    def get(self, request, *args, **kwargs):
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        return render(request, 'swenergy/detalhesPredio.html', {'predio':predio})
 
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
@@ -102,7 +124,17 @@ class addPredio(View):
         return render(request, 'swenergy/formPredio.html')
     
     def post(self, request, *args, **kwargs):
-        predio  = Predio(nome=request.POST['nome'])
+        predio  = Predio(nome=request.POST['titulo'], Co2=request.POST['co2'], KWh=request.POST['kwh'],economico=request.POST['economico'],meta=request.POST['meta'], area=request.POST['area'], populacao=request.POST['pop'], pavimentos=request.POST['pav'], PotInst=request.POST['pi'], idade=request.POST['idade'] )
+        geracaofv = request.POST.getlist('GFV')
+        for gfv in geracaofv:
+            if gfv=='1':
+                predio.geracaoFV=True
+
+            elif gfv=='2':
+
+                predio.geracaoFV=False
+            else:
+                msg_erro = 'Dados inválidos!'
         predio.save()
         contexto = {'predio':predio, 'msg':'Edifício cadastrado!'}
         return render(request, 'swenergy/detalhesPredio.html',contexto)
@@ -119,6 +151,19 @@ class editar(View):
         sensor.titulo = request.POST['titulo']
         sensor.save()
         return render(request, 'swenergy/detalhes.html', {'sensor':sensor, 'msg_sucess':'Edições salvas!'})
+
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
+class editarPredio(View):
+    def get(self,request,*args,**kwargs):
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        return render(request, 'swenergy/editarPredio.html', {'predio':predio})
+    def post(self,request,*args,**kwargs):
+        predio = get_object_or_404(Predio, pk=request.POST['id'])
+        predio.nome = request.POST['nome']
+        predio.save()
+        return render(request, 'swenergy/indexPredio.html', {'predio':predio, 'msg_sucess':'Edições salvas!'})
 
 class cadastro(View):
     def get(self,request,*args,**kwargs):
@@ -151,12 +196,13 @@ class GetDataAPI(View):
         return JsonResponse(list(sensores.values()), safe = False)
 
 class NiveisEnergia(View):
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):        
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
+        predio = sensor.predio
         faseA = Fase.objects.get(tipo='A')
         faseB = Fase.objects.get(tipo='C')
         faseC = Fase.objects.get(tipo='B')
-        return render(request, 'swenergy/niveis.html', {'sensor':sensor, 'faseA':faseA, 'faseB':faseB, 'faseC':faseC})
+        return render(request, 'swenergy/niveis.html', {'predio':predio,'sensor':sensor, 'faseA':faseA, 'faseB':faseB, 'faseC':faseC})
 
 class EnviarAlerta(View):
     def get(self, request, *args, **kwargs):

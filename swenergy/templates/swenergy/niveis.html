@@ -10,202 +10,130 @@
 
         {% block scripts %}
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script>
-            function table(){
-            
-            var request = new XMLHttpRequest();
         
-            request.open('GET', `/api/data/`);
         
-            request.responseType = 'json';
-            request.send();
-            
-            
-
-            request.onload = function(){
-              var data = JSON.stringify(request.response);
-              var dataJSON = request.response;
-              console.log(dataJSON); 
-
-              var div = document.getElementById('tables');
-              
-              
-              dataJSON.map((sensor1)=>{
-            
-                if({{sensor.id}}==sensor1.id){
-
-                    console.log("PT: "+sensor1.pt)
-                    let table = document.createElement('table');
-
-                    table.innerText = "Sensor "+sensor1.id
-
-                    let tr = document.createElement('tr');                
-                    let tr1 = document.createElement('tr');
-                    let tr2 = document.createElement('tr');
-                    let tr3 = document.createElement('tr');
-                    let tr4 = document.createElement('tr');
-                    let tr5 = document.createElement('tr');
-                    let tr6 = document.createElement('tr');
-                    let tr7 = document.createElement('tr');
-                    let tr8 = document.createElement('tr');
-                    let tr9 = document.createElement('tr');
-                    let tr10 = document.createElement('tr');
-                    let tr11 = document.createElement('tr');                
-
-                    table.append(tr);
-                    table.append(tr1);
-                    table.append(tr2);
-                    table.append(tr3);
-                    table.append(tr4);
-                    table.append(tr5);
-                    table.append(tr6);
-                    table.append(tr7);
-                    table.append(tr8);
-                    table.append(tr9);
-                    table.append(tr10);
-                    table.append(tr11);
-
-                    let td = document.createElement('td');
-                    let td1 = document.createElement('td');
-                    tr.append(td);
-                    tr.append(td1);
-                    td.innerText = "PT"
-                    if(sensor1.pt){   
-                                                                 
-                        td1.innerText =  sensor1.pt
-                    }
-
-                    let td2 = document.createElement('td');
-                    let td3 = document.createElement('td');
-                    tr1.append(td2);
-                    tr1.append(td3);
-                    td2.innerText = "QT"
-                    if(sensor1.qt){                    
-                        td3.innerText =  sensor1.qt
-                    }
-
-                    let td4 = document.createElement('td');
-                    let td5 = document.createElement('td');
-                    tr2.append(td4);
-                    tr2.append(td5);
-                    td4.innerText = "ST"
-                    if(sensor1.st){                    
-                        td5.innerText =  sensor1.st
-                    }
-
-                    let td6 = document.createElement('td');
-                    let td7 = document.createElement('td');
-                    tr3.append(td6);
-                    tr3.append(td7);
-                    td6.innerText = "ITRMS"
-                    if(sensor1.itrms){                    
-                        td7.innerText =  sensor1.itrms
-                    }
-                    
-                    let td8 = document.createElement('td');
-                    let td9 = document.createElement('td');
-                    tr4.append(td8);
-                    tr4.append(td9);
-                    td8.innerText = "PFT"
-                    if(sensor1.pft){                    
-                        td9.innerText =  sensor1.pft
-                    }
-
-                    let td10 = document.createElement('td');
-                    let td11 = document.createElement('td');
-                    tr5.append(td10);
-                    tr5.append(td11);
-                    td10.innerText = "FREQ"
-                    if(sensor1.freq){                    
-                        td11.innerText =  sensor1.freq
-                    }
-
-                    let td12 = document.createElement('td');
-                    let td13 = document.createElement('td');
-                    tr6.append(td12);
-                    tr6.append(td13);
-                    td12.innerText = "EPT"
-                    if(sensor1.ept){                    
-                        td13.innerText =  sensor1.ept
-                    }
-
-                    let td14 = document.createElement('td');
-                    let td15 = document.createElement('td');
-                    tr7.append(td14);
-                    tr7.append(td15);
-                    td14.innerText = "EQT"
-                    if(sensor1.eqt){                    
-                        td15.innerText =  sensor1.eqt
-                    }
-
-                    let td16 = document.createElement('td');
-                    let td17 = document.createElement('td');
-                    tr8.append(td16);
-                    tr8.append(td17);
-                    td16.innerText = "YUAUB"
-                    if(sensor1.yuaub){                    
-                        td17.innerText =  sensor1.yuaub
-                    }
-
-                    let td18 = document.createElement('td');
-                    let td19 = document.createElement('td');
-                    tr9.append(td18);
-                    tr9.append(td19);
-                    td18.innerText = "YUAUC"
-                    if(sensor1.yuauc){                    
-                        td19.innerText =  sensor1.yuauc
-                    }
-
-                    let td20 = document.createElement('td');
-                    let td21 = document.createElement('td');
-                    tr10.append(td20);
-                    tr10.append(td21);
-                    td20.innerText = "YUBUC"
-                    if(sensor1.yuaub){                    
-                        td21.innerText =  sensor1.yuaub
-                    }
-
-                    let td22 = document.createElement('td');
-                    let td23 = document.createElement('td');
-                    tr11.append(td22);
-                    tr11.append(td23);
-                    td22.innerText = "TPSD"
-                    if(sensor1.tpsd){                    
-                        td23.innerText =  sensor1.tpsd
-                    }
-
-                    div.append(table);
-                   
-               
-            }
-              });
-            }
-            }
-
-            
-            
-            table()
-            refresh()
-            
-            </script>
-         {% endblock %}
+        {% endblock %}
     </head>
     <body>          
         {% block conteudo %}   
         <h2>Geral:</h2> 
 
-        <div id="tables" style="height: 50%; width:50% ;"></div>
+        <h3>{{sensor.time}}</h3>
+
+            {% for fase in sensor.fase_set.all %}
+            
+            <table>
+                <tr>
+                    <th colspan="3">Fase {{fase}}</th>
+                </tr>
+                <tr>            
+                    <td>Potência ativa</td> 
+                    <td id="p{{fase.id}}">{{fase.p}}</td>
+                </tr>
+                <tr>
+                    <td>Potência reativa</td>
+                    <td>{{fase.q}}</td>
+                </tr>
+                <tr>
+                    <td>Potência aparente</td>
+                    <td>{{fase.s}}</td>
+                </tr>
+                <tr>
+                    <td>Tensão</td> 
+                    <td>{{fase.urms}}</td>
+                </tr>
+                <tr>
+                    <td>Corrente</td>
+                    <td>{{fase.itrms}}</td>
+                </tr>
+                <tr>
+                    <td>Fator de potência</td>
+                    <td>{{fase.pf}}</td>
+                </tr>
+                <tr>
+                    <td>Ângulo entre a tensão e corrente</td>
+                    <td>{{fase.pg}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia ativa</td>
+                    <td>{{fase.ep}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia reativa</td>
+                    <td>{{fase.eq}}</td>
+                </tr>
+            <br>
+            </table>
+            {% endfor %}
+
+        <div id="tables" style="height: 50%; width:50% ;">
+
+        </div>
 
         <div id="chart_div" style="width: 800px; height: 240px;"></div>
 
         <h2>Fase A</h2>
-        <div id="chart_div_FA" style="width: 800px; height: 240px;"></div>
+        <div id="chart_div_FA" style="width: 800px; height: 240px;">
+            <table>
+                <tr>
+                    <th colspan="3">Fase {{fase}}</th>
+                </tr>
+                <tr id="tr1">            
+                    <td>Potência ativa</td> 
+                    <td id="p"></td>
+                </tr>
+                <tr>
+                    <td>Potência reativa</td>
+                    <td>{{fase.q}}</td>
+                </tr>
+                <tr>
+                    <td>Potência aparente</td>
+                    <td>{{fase.s}}</td>
+                </tr>
+                <tr>
+                    <td>Tensão</td> 
+                    <td>{{fase.urms}}</td>
+                </tr>
+                <tr>
+                    <td>Corrente</td>
+                    <td>{{fase.itrms}}</td>
+                </tr>
+                <tr>
+                    <td>Fator de potência</td>
+                    <td>{{fase.pf}}</td>
+                </tr>
+                <tr>
+                    <td>Ângulo entre a tensão e corrente</td>
+                    <td>{{fase.pg}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia ativa</td>
+                    <td>{{fase.ep}}</td>
+                </tr>
+                <tr>
+                    <td>Consumo de energia reativa</td>
+                    <td>{{fase.eq}}</td>
+                </tr>
+            <br>
+            </table>
+        </div>
         <h2>Fase B</h2>
         <div id="chart_div_FB" style="width: 800px; height: 240px;"></div>
         <h2>Fase C</h2>
         <div id="chart_div_FC" style="width: 800px; height: 240px;"></div>
         {% endblock %}
-       
+        <script>
+            let x = document.getElementById('p');
+            x.innerText = "djdj"
+            
+            console.log(x);
+            let td = document.createElement('td');
+            td.innerText="isisi"
+            let tr = document.getElementById('tr1');
+            tr.append(td);
+            let s = document.getElementsByTagName('td');
+            s[2].innerText = "jdjsa"
+        </script>
     </body>
 </html>
 
