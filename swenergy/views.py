@@ -9,7 +9,8 @@ from django.contrib.auth.models import User
 from reportlab.pdfgen import canvas
 
 from django.http import HttpResponse, HttpRequest, JsonResponse
-import json
+from django.http.request import QueryDict
+import json, datetime
 from django.template.loader import get_template
 from io import BytesIO
 #import wget
@@ -18,9 +19,9 @@ from django.http import StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
-@method_decorator(
-    login_required(login_url='/login'), name='dispatch'
-)
+#@method_decorator(
+#   login_required(login_url='/login'), name='dispatch'
+#)
 class index(View):
     #@csrf_exempt
     def get(self,request,*args,**kwargs):
@@ -28,28 +29,41 @@ class index(View):
         sensores = Sensor.objects.all()
         consumos = Consumo.objects.all()
         data = request.GET
+
+        dict = QueryDict('', mutable=True)
+        dict.update(data)
+        print(dict)
         sec =  self.request.session
-        json = models.JSONField(str(HttpRequest.body))
+        json = models.JSONField(str(data))
 
-        url = '/'
-        headers={'Content-Type': 'application/json'}
-        #response = requests.get(url, headers=headers)
-        #response = json.loads(response.content)
+        sensor = get_object_or_404(Sensor, pk=1)
+        if data:
+            sensor.pt       = data.getlist('pt')[0]
+            sensor.qt       = data.getlist('qt')[0]
+            sensor.st       = data.getlist('st')[0]
+            sensor.itrms    = data.getlist('itrms')[0]
+            sensor.pft      = data.getlist('pft')[0]
+            sensor.freq     = data.getlist('freq')[0]
+            sensor.ept      = data.getlist('ept')[0]
+            sensor.eqt      = data.getlist('eqt')[0]
+            sensor.yuaub    = data.getlist('yuaub')[0]
+            sensor.yuauc    = data.getlist('yuauc')[0]
+            sensor.yubuc    = data.getlist('yubuc')[0]
+            sensor.tpsd     = data.getlist('tpsd')[0]
 
-        #resultado = response
+        sensor.save()
+
+        if data:
+            print("---------------------------")
+
+            l = list(data.items())
+            print(l[0][0])
+        print(type(data))
+        print(data)
         
-        #data = json.loads(request.body)
-
-        #try:
-            #data = json.loads(request.body)
-            #label = data['label']
-            #url = data ['url']
-            #print label, url
-        #except:
-            #return HttpResponse("Malformed data!")
-        #return HttpResponse("Got json data")
+       
         contexto = {'predios':predios,'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
-        #contexto['resultado'] = resultado
+
         return render(request,'swenergy/index.html', contexto)
     @csrf_exempt
     def post(self,request,*args,**kwargs):
@@ -103,7 +117,9 @@ class detalhesPredio(View):
 )
 class addSensor(View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'swenergy/formSensor.html')
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        contexto = {'predio':predio}
+        return render(request, 'swenergy/formSensor.html', contexto)
     
     def post(self, request, *args, **kwargs):
         sensor  = Sensor(titulo=request.POST['titulo'])
@@ -124,7 +140,18 @@ class addPredio(View):
         return render(request, 'swenergy/formPredio.html')
     
     def post(self, request, *args, **kwargs):
-        predio  = Predio(nome=request.POST['titulo'], Co2=request.POST['co2'], KWh=request.POST['kwh'],economico=request.POST['economico'],meta=request.POST['meta'], area=request.POST['area'], populacao=request.POST['pop'], pavimentos=request.POST['pav'], PotInst=request.POST['pi'], idade=request.POST['idade'] )
+        predio  = Predio(
+            nome        = request.POST['titulo'],
+            Co2         = request.POST['co2'],
+            KWh         = request.POST['kwh'],
+            economico   = request.POST['economico'],
+            meta        = request.POST['meta'],
+            area        = request.POST['area'], 
+            populacao   = request.POST['pop'], 
+            pavimentos  = request.POST['pav'], 
+            PotInst     = request.POST['pi'], 
+            idade       = request.POST['idade'] 
+            )
         geracaofv = request.POST.getlist('GFV')
         for gfv in geracaofv:
             if gfv=='1':
@@ -218,9 +245,11 @@ class EnviarAlerta(View):
 
 class RelatorioPDF(View, GeraPDFMixin):
     def get(self, request, *args, **kwargs):
+        data = datetime.datetime.now()
         sensores = Sensor.objects.all()
         dados = {
             'sensores': sensores,
+            'data': data,
         }
         pdf = GeraPDFMixin()
         return pdf.render_to_pdf('swenergy/relatoriopdf.html', dados)

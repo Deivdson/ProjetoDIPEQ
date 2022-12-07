@@ -12,13 +12,26 @@
     {% block main-menu %}
     {% endblock %}
     {% block conteudo %}
-    <h2>Relatório de Consumo</h2>
+    <h3>Relatório de Consumo - {{data}}</h3>
     <hr>
     {% for sensor in sensores %}
         <fieldset style="width: 60%;">
         
-        <h3>{{sensor.titulo}}</h3>
-        
+        <h3>Sensor: {{sensor.titulo}}</h3>
+        <ul>
+            <li>Potência ativa total: {{sensor.pt}}</li>
+            <li>Potência reativa total: {{sensor.qt}}</li>
+            <li>Potência aparente total: {{sensor.st}}</li>
+            <li>Corrente total: {{sensor.itrms}}</li>
+            <li>Fator de potência total: {{sensor.pft}}</li>
+            <li>Frequência: {{sensor.freq}}</li>
+            <li>Consumo de energia ativa total: {{sensor.ept}}</li>
+            <li>Consumo de energia reativa total: {{sensor.eqt}}</li>
+            <li>Ângulo entre Tensão Fase A e Fase B: {{sensor.yuaub}}</li>
+            <li>Ângulo entre Tensão Fase B e Fase C: {{sensor.yuauc}}</li>
+            <li>Ângulo entre Tensão Fase B e Fase C: {{sensor.yubuc}}</li>
+            <li>Temperatura: {{sensor.tpsd }}</li>
+        </ul>
         {% for fase in sensor.fase_set.all %}
         
         <h3>Fase {{fase}}</h3>
@@ -35,7 +48,6 @@
         </ul><br>
     
         {% endfor %}
-
         Consumos diários:
         <br><br>
         {% for consumo in sensor.consumo_set.all %}
@@ -44,6 +56,7 @@
         {% endfor %}
         </fieldset>
     </section>
+    <hr>
     {% endfor %}
     {% endblock %}
     
