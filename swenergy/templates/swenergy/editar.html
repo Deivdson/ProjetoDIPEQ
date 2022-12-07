@@ -26,7 +26,7 @@
     </header>
     <section style="padding-left: 600px;">
         <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
-            <form action="{% url 'swenrgy:editar' sensor.id %}" method="post">
+            <form action="{% url 'swenergy:editar' sensor.id %}" method="post">
             {% csrf_token %}
                 <input type="hidden" value="{{sensor.id}}" name="id">
                 <span>ID: {{sensor.id}}</span><br>

@@ -45,7 +45,7 @@
             <ul style="display:flex; gap:50px; list-style-type:none;">
                 <li><a href=" {% url 'swenergy:index' %}">Início</a></li>
                 <li><a href=" {% url 'swenergy:indexPredio' predio.id %}">Edifício: {{predio.nome}}</a></li>
-                <li><a href=" {% url 'swenergy:addSensor' %}">Novo sensor</a></li>
+                <li><a href=" {% url 'swenergy:addSensor' predio.id %}">Novo sensor</a></li>
                 {% if user.is_authenticated %}
                 <li><a href="{% url 'logout' %}?next=/">Logout</a></li>
                 {% else %}
