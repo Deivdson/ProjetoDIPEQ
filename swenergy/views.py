@@ -26,17 +26,19 @@ class index(View):
     #@csrf_exempt
     def get(self,request,*args,**kwargs):
         predios = Predio.objects.all()
-        sensores = Sensor.objects.all()
-        consumos = Consumo.objects.all()
-        data = request.GET
 
+        now = datetime.datetime.now()
+        date = datetime.date.today()
+
+        data = request.GET
         dict = QueryDict('', mutable=True)
         dict.update(data)
         print(dict)
         sec =  self.request.session
         json = models.JSONField(str(data))
-
+        
         sensor = get_object_or_404(Sensor, pk=1)
+
         if data:
             sensor.pt       = data.getlist('pt')[0]
             sensor.qt       = data.getlist('qt')[0]
@@ -51,20 +53,21 @@ class index(View):
             sensor.yubuc    = data.getlist('yubuc')[0]
             sensor.tpsd     = data.getlist('tpsd')[0]
 
+            hora = now.strftime('%H:%M')
+            if hora == "10:52":
+                consumo = Consumo(data=date, inicio=data.getlist('ept')[0], sensor=sensor)
+                consumo.save()
+            if hora == "23:59":
+                consumo = get_object_or_404(data=date)
+                consumo.fim = data.getlist('ept')[0]
+                consumo.save()
         sensor.save()
-
-        if data:
-            print("---------------------------")
-
-            l = list(data.items())
-            print(l[0][0])
-        print(type(data))
-        print(data)
         
        
-        contexto = {'predios':predios,'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
+        contexto = {'predios':predios, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json}
 
         return render(request,'swenergy/index.html', contexto)
+
     @csrf_exempt
     def post(self,request,*args,**kwargs):
         contexto = {'data':request.POST, 'msg':'Metodo POST'}

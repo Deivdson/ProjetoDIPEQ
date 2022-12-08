@@ -58,11 +58,11 @@ class Fase(models.Model):
 
 class Consumo(models.Model):
     data = models.DateTimeField()
-    inicio = models.FloatField()
-    fim = models.FloatField()
-    total = models.FloatField()
+    inicio = models.FloatField(null=True)
+    fim = models.FloatField(null=True)
+    total = models.FloatField(null=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, null=True)
     def __str__(self):
-        return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)
+        return ('Sensor: {0} - Consumo: {1} - Data: {2}').format(self.sensor, self.total,self.data)
 
 
