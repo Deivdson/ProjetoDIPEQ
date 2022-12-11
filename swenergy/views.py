@@ -11,6 +11,7 @@ from reportlab.pdfgen import canvas
 from django.http import HttpResponse, HttpRequest, JsonResponse
 from django.http.request import QueryDict
 import json, datetime
+from calendar import monthrange
 from django.template.loader import get_template
 from io import BytesIO
 #import wget
@@ -18,51 +19,14 @@ from io import BytesIO
 from django.http import StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
-#@method_decorator(
-#   login_required(login_url='/login'), name='dispatch'
-#)
+#Create your views here.
+@method_decorator(
+   login_required(login_url='/login'), name='dispatch'
+)
 class index(View):
-    #@csrf_exempt
     def get(self,request,*args,**kwargs):
-        predios = Predio.objects.all()
-        sensores = Sensor.objects.all()
-        consumos = Consumo.objects.all()
-        data = request.GET
-
-        dict = QueryDict('', mutable=True)
-        dict.update(data)
-        print(dict)
-        sec =  self.request.session
-        json = models.JSONField(str(data))
-
-        sensor = get_object_or_404(Sensor, pk=1)
-        if data:
-            sensor.pt       = data.getlist('pt')[0]
-            sensor.qt       = data.getlist('qt')[0]
-            sensor.st       = data.getlist('st')[0]
-            sensor.itrms    = data.getlist('itrms')[0]
-            sensor.pft      = data.getlist('pft')[0]
-            sensor.freq     = data.getlist('freq')[0]
-            sensor.ept      = data.getlist('ept')[0]
-            sensor.eqt      = data.getlist('eqt')[0]
-            sensor.yuaub    = data.getlist('yuaub')[0]
-            sensor.yuauc    = data.getlist('yuauc')[0]
-            sensor.yubuc    = data.getlist('yubuc')[0]
-            sensor.tpsd     = data.getlist('tpsd')[0]
-
-        sensor.save()
-
-        if data:
-            print("---------------------------")
-
-            l = list(data.items())
-            print(l[0][0])
-        print(type(data))
-        print(data)
-        
-       
-        contexto = {'predios':predios,'sensores':sensores, 'data':data, 'session':sec, 'args':args, 'kwargs':kwargs,'json':json, 'consumos':consumos}
+        predios = Predio.objects.all()       
+        contexto = {'predios':predios}
 
         return render(request,'swenergy/index.html', contexto)
     @csrf_exempt
@@ -102,7 +66,15 @@ class detalhes(View):
     def get(self, request, *args, **kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         predio = sensor.predio
-        return render(request, 'swenergy/detalhes.html', {'sensor':sensor, 'predio':predio})
+        consumos_diarios = Consumo.objects.filter(tipo='diario', sensor=sensor)
+        consumos_mensais = Consumo.objects.filter(tipo='mensal', sensor=sensor)
+        contexto = {
+            'sensor':sensor,
+            'predio':predio,
+            'consumos_diarios':consumos_diarios,
+            'consumos_mensai':consumos_mensais
+        }
+        return render(request, 'swenergy/detalhes.html', contexto)
 
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
@@ -219,8 +191,30 @@ class IndexViewJSON(View):
 class GetDataAPI(View):
     def get(self, request, *args, **kwargs):
         sensores = Sensor.objects.all()
+        consumo = Consumo.objects.all()
         contexto = {'sensor_list': sensores}
-        return JsonResponse(list(sensores.values()), safe = False)
+        lista = list(sensores.values())
+        #lista.append(list(consumo.values()))
+        return JsonResponse(lista, safe = False)
+
+class GetSensorDataAPI(View):
+    def get(self, request, *args, **kwargs):
+        sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
+        sensores = Sensor.objects.filter(pk=kwargs['pk'])
+
+        fases = Fase.objects.filter(sensor=sensor).order_by('tipo')
+        lista = list(sensores.values())
+        #lista.append(list(fases.values()))
+        contexto = {'sensor': sensor, 'fases':fases}
+        return JsonResponse(lista, safe = False)
+
+class GetFaseDataAPI(View):
+    def get(self, request, *args, **kwargs):
+        sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
+        fases = Fase.objects.filter(sensor=sensor).order_by('tipo')
+        lista = list(fases.values())
+        contexto = {'sensor': sensor, 'fases':fases}
+        return JsonResponse(lista, safe = False)
 
 class NiveisEnergia(View):
     def get(self, request, *args, **kwargs):        
@@ -253,6 +247,72 @@ class RelatorioPDF(View, GeraPDFMixin):
         }
         pdf = GeraPDFMixin()
         return pdf.render_to_pdf('swenergy/relatoriopdf.html', dados)
+
+class Controller(View):
+    def get(self,request, *args,**kwargs):
+        now = datetime.datetime.now()
+        date = datetime.date.today()
+        last_day = date.replace(day=monthrange(date.year, date.month)[1])
+
+        data = request.GET
+        dict = QueryDict('', mutable=True)
+        dict.update(data)
+        print(dict)
+        
+        sensor = get_object_or_404(Sensor, pk=1)
+
+        if data:
+            sensor.pt       = data.getlist('pt')[0]
+            sensor.qt       = data.getlist('qt')[0]
+            sensor.st       = data.getlist('st')[0]
+            sensor.itrms    = data.getlist('itrms')[0]
+            sensor.pft      = data.getlist('pft')[0]
+            sensor.freq     = data.getlist('freq')[0]
+            sensor.ept      = data.getlist('ept')[0]
+            sensor.eqt      = data.getlist('eqt')[0]
+            sensor.yuaub    = data.getlist('yuaub')[0]
+            sensor.yuauc    = data.getlist('yuauc')[0]
+            sensor.yubuc    = data.getlist('yubuc')[0]
+            sensor.tpsd     = data.getlist('tpsd')[0]
+
+            hora = now.strftime('%H:%M')
+            consumo_do_dia = get_object_or_404(Consumo, data=hora)
+            if hora == "00:00" and not(consumo_do_dia):
+                consumo = Consumo(data=date, inicio=data.getlist('ept')[0], sensor=sensor)
+                consumo.save()
+            if hora == "23:59":
+                consumo = get_object_or_404(Consumo, data=date)
+                consumo.fim = data.getlist('ept')[0]
+                consumo.save()
+                
+                if date == last_day:
+                    cont = 0
+                    consumos = Consumo.objects.filter(sensor=sensor)
+                    total = 0
+                    for consumo in consumos:
+                        total += consumo.total
+                        cont +=1
+                    media = total/cont
+                    consumo_mes = Consumo(data=date, total=total, media=media, tipo='mensal', sensor=sensor)
+        sensor.save()
+
+        if date.weekday()<5 and float(sensor.ept) >= 600:
+            msgRetorno = 'Um alerta foi emitido.'
+            email = Email()
+            try:
+                email.send('Alerta de Consumo!', '{0}\nO consumo está acima dos níveis normais. Consumo total: {1}'.format((date.strftime('%d/%m/%y')), sensor.ept), ['deividson.silva@escolar.ifrn.edu.br'])
+            except:
+                msgRetorno = 'Falha no envio de alerta'
+
+        elif date.weekday()>4 and float(sensor.ept) >= 150:
+            msgRetorno = 'Um alerta foi emitido.'
+            email = Email()
+            try:
+                email.send('Alerta de Consumo!', '{0}\nO consumo está acima dos níveis normais. Consumo total: {1}'.format((date.strftime('%d/%m/%y')), sensor.ept), ['deividson.silva@escolar.ifrn.edu.br'])
+            except:
+                msgRetorno = 'Falha no envio de alerta'
+
+        return HttpResponse
 
 def GeraPDF(request):
     # Create the HttpResponse object with the appropriate PDF headers.

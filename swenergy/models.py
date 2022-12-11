@@ -18,6 +18,9 @@ class Predio(models.Model):
     geracaoFV = models.BooleanField(default=False)
     idade = models.IntegerField(null=True)
 
+    def __str__(self):
+        return self.nome
+
 
 class Sensor(models.Model):
     titulo  = models.CharField(max_length=50)
@@ -58,9 +61,11 @@ class Fase(models.Model):
 
 class Consumo(models.Model):
     data = models.DateTimeField()
-    inicio = models.FloatField()
-    fim = models.FloatField()
-    total = models.FloatField()
+    tipo    = models.CharField(max_length=6,default='diario')
+    inicio = models.FloatField(null=True)
+    fim = models.FloatField(null=True)
+    total = models.FloatField(null=True)
+    media = models.FloatField(null=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, null=True)
     def __str__(self):
         return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)

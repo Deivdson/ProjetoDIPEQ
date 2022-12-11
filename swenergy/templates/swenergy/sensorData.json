@@ -1,0 +1,10 @@
+{
+    "Sensor": "{{sensor}}",
+    "Consumos": [{% for consumo in sensor.consumo_set.all %}
+        {"Consumo": "{{consumo.total}}"}, {% endfor %}
+    ],
+    "Fases": [{% for fase in fases %}
+        {"fase": "{{fase}}"}, {% endfor %}
+    ]
+           
+}

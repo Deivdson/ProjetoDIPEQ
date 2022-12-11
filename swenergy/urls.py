@@ -12,7 +12,10 @@ app_name = 'swenergy'
 urlpatterns = [
     path('', views.index.as_view(), name='index'),
     path('data/', views.IndexViewJSON.as_view(), name='index_json'),
+    path('api/data/sensor/<int:pk>/', views.GetSensorDataAPI.as_view(), name='get_sensor_data'),
+    path('api/data/fase/<int:pk>/', views.GetFaseDataAPI.as_view(), name='get_sensor_data'),
     path('api/data/', views.GetDataAPI.as_view(), name='get_data'),
+
     path('detalhes/<int:pk>/', views.detalhes.as_view(), name='detalhes'),
     path('addSensor/<int:pk>/', views.addSensor.as_view(), name='addSensor'),
     path('editar/<int:pk>/', views.editar.as_view(), name='editar'),
@@ -33,5 +36,6 @@ urlpatterns = [
     path('getRelatorio/', views.get_relatorio, name='getRelatorio'),
 
     #alertas
-    path('enviarAlerta/', views.EnviarAlerta.as_view(), name='alerta')
+    path('enviarAlerta/', views.EnviarAlerta.as_view(), name='alerta'),
+    path('api/sensor/', views.Controller.as_view(), name='alerta')
 ]

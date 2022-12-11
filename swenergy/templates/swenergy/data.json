@@ -1,11 +1,11 @@
 {
-    "Sensores": [{% for sensor in sensor_list %}
+    {% for sensor in sensor_list %}
         {
-            "Sensor": "{{sensor}}",
+            "sensor": {"id":{{sensor.id}}, "pt":"{{sensor.pt}}"},
             "Consumos": [{% for consumo in sensor.consumo_set.all %}
                 {"Consumo": "{{consumo.total}}"}, {% endfor %}
             ]
             
         },{% endfor %}
-    ]
+    
 }

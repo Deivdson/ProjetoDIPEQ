@@ -48,8 +48,17 @@
 
         Consumos diários:
         <br><br>
-        {% for consumo in sensor.consumo_set.all %}
+        {% for consumo in consumos_diarios %}
         <strong>Data:</strong> {{consumo.data}} <br><strong>Consumo total:</strong> {{consumo.total}}<br><br>
+        {% endfor %}
+
+        Consumos Mensais:
+        <br><br>
+        {% for consumo in consumos_mensais %}
+        <strong>Data:</strong>          {{consumo.data}} <br>
+        <strong>Consumo total:</strong> {{consumo.total}}<br>
+        <strong>Média: </strong>        {{consumo.media}}<br>
+        <br>
         {% endfor %}
         </fieldset>
     </section>
