@@ -16,7 +16,18 @@
             request.open('GET', `/api/data/sensor/{{sensor.id}}`);
 
             request.responseType = 'json';
-            var pt = 0;
+            var pt    = 0;
+            var qt    = 0;
+            var st    = 0;
+            var itrms = 0;
+            var pft   = 0;
+            var freq  = 0;
+            var ept   = 0;
+            var eqt   = 0;
+            var yuaub = 0;
+            var yuauc = 0;
+            var yubuc = 0;
+            var tpsd  = 0;
 
             request.send();
             request.onload = function(){
@@ -24,33 +35,96 @@
             var dataJSON = request.response;
             console.log(dataJSON); 
             dataJSON.map((sensor1)=>{
-                pt = sensor1.pt;
+                pt    = sensor1.pt;
+                qt    = sensor1.qt;
+                st    = sensor1.st;
+                itrms = sensor1.itrms;
+                pft   = sensor1.pft;
+                freq  = sensor1.freq;
+                ept   = sensor1.ept;
+                eqt   = sensor1.eqt;
+                yuaub = sensor1.yuaub;
+                yuauc = sensor1.yuauc;
+                yubuc = sensor1.yubuc;
+                tpsd  = sensor1.tpsd;
+
             });
             }
 
-            var request = new XMLHttpRequest();
+            var requestFase = new XMLHttpRequest();
 
-            request.open('GET', `/api/data/fase/{{sensor.id}}`);
+            requestFase.open('GET', `/api/data/fase/{{sensor.id}}`);
 
-            request.responseType = 'json';
-            var pa=0;
-            var pb=0;
-            var pc=0;
+            requestFase.responseType = 'json';
+            var pa    =0;            
+            var qa    =0;
+            var sa    =0;
+            var urmsa =0;
+            var itrmsa=0;
+            var pfa   =0;
+            var pga   =0;
+            var epa   =0;
+            var eqa   =0;
 
-            request.send();
-            request.onload = function(){
-            var data = JSON.stringify(request.response);
-            var dataJSON = request.response;
-            console.log(dataJSON); 
+            var pb    =0;
+            var qb    =0;
+            var sb    =0;
+            var urmsb =0;
+            var itrmsb=0;
+            var pfb   =0;
+            var pgb   =0;
+            var epb   =0;
+            var eqb   =0;
+
+            var pc    =0;
+            var qc    =0;
+            var sc    =0;
+            var urmsc =0;
+            var itrmsc=0;
+            var pfc   =0;
+            var pgc   =0;
+            var epc   =0;
+            var eqc   =0;
+          
+
+            requestFase.send();
+            requestFase.onload = function(){
+            var data = JSON.stringify(requestFase.response);
+            var dataJSON = requestFase.response;
+            console.log("DaraJSON: "+dataJSON); 
             dataJSON.map((fase)=>{
                 if(fase.tipo=="A"){
-                    pa = fase.p
+                    pa    = fase.p;
+                    qa    = fase.q;
+                    sa    = fase.s;
+                    urmsa = fase.urms;
+                    itrmsa= fase.itrms;
+                    pfa   = fase.pf;
+                    pga   = fase.pg;
+                    epa   = fase.ep;
+                    eqa   = fase.eq;
                 }
                 else if(fase.tipo=="B"){
-                    pb = fase.p
+                    pb    = fase.p;                    
+                    qb    = fase.q;
+                    sb    = fase.s;
+                    urmsb = fase.urms;
+                    itrmsb= fase.itrms;
+                    pfb   = fase.pf;
+                    pgb   = fase.pg;
+                    epb   = fase.ep;
+                    eqb   = fase.eq;
                 }
                 else if(fase.tipo=="C"){
-                    pc = fase.p
+                    pc    = fase.p;                    
+                    qc    = fase.q;
+                    sc    = fase.s;
+                    urmsc = fase.urms;
+                    itrmsc= fase.itrms;
+                    pfc   = fase.pf;
+                    pgc   = fase.pg;
+                    epc   = fase.ep;
+                    eqc   = fase.eq;
                 }
                 
             });
@@ -68,10 +142,21 @@
                 request.onload = function(){
                 var data = JSON.stringify(request.response);
                 var dataJSON = request.response;
-                console.log(dataJSON); 
+                console.log("DataJSON Sensor: "+dataJSON); 
                 dataJSON.map((sensor1)=>{
                     pt = sensor1.pt;
-                    console.log("PT: "+sensor1.pt)
+                    qt    = sensor1.qt;
+                    st    = sensor1.st;
+                    itrms = sensor1.itrms;
+                    pft   = sensor1.pft;
+                    freq  = sensor1.freq;
+                    ept   = sensor1.ept;
+                    eqt   = sensor1.eqt;
+                    yuaub = sensor1.yuaub;
+                    yuauc = sensor1.yuauc;
+                    yubuc = sensor1.yubuc;
+                    tpsd  = sensor1.tpsd;
+                    console.log("Sensor: "+sensor1)
                 });
                 }
                 
@@ -80,18 +165,51 @@
             setInterval(function(){
                 var request = new XMLHttpRequest();
 
-                request.open('GET', `/api/data/fase/{{sensor.id}}`);
+                requestFase.open('GET', `/api/data/fase/{{sensor.id}}`);
 
-                request.responseType = 'json';
+                requestFase.responseType = 'json';
 
-                request.send();
-                request.onload = function(){
-                var data = JSON.stringify(request.response);
-                var dataJSON = request.response;
+                requestFase.send();
+                requestFase.onload = function(){
+                var data = JSON.stringify(requestFase.response);
+                var dataJSON = requestFase.response;
                 console.log(dataJSON); 
                 dataJSON.map((fase)=>{
-                    p = fase.p;
-                    console.log("P: "+fase.p)
+                  console.log("Fase: "+fase)
+                  if(fase.tipo=="A"){
+                    console.log("Fase A pa: "+fase.p)
+                    pa    = fase.p;
+                    qa    = fase.q;
+                    sa    = fase.s;
+                    urmsa = fase.urms;
+                    itrmsa= fase.itrms;
+                    pfa   = fase.pf;
+                    pga   = fase.pg;
+                    epa   = fase.ep;
+                    eqa   = fase.eq;
+                }
+                else if(fase.tipo=="B"){
+                    pb    = fase.p;                    
+                    qb    = fase.q;
+                    sb    = fase.s;
+                    urmsb = fase.urms;
+                    itrmsb= fase.itrms;
+                    pfb   = fase.pf;
+                    pgb   = fase.pg;
+                    epb   = fase.ep;
+                    eqb   = fase.eq;
+                }
+                else if(fase.tipo=="C"){
+                    pc    = fase.p;                    
+                    qc    = fase.q;
+                    sc    = fase.s;
+                    urmsc = fase.urms;
+                    itrmsc= fase.itrms;
+                    pfc   = fase.pf;
+                    pgc   = fase.pg;
+                    epc   = fase.ep;
+                    eqc   = fase.eq;
+                }
                 });
                 }
                 
@@ -105,17 +223,17 @@
              var data = google.visualization.arrayToDataTable([
                ['Label', 'Value'],
                ['pt',       pt ],
-               ['qt',       0 ],
-               ['st',       0 ],
-               ['itrms',    0 ],
-               ['pft',      0 ],
-               ['freq',     0 ],
-               ['ept',      0 ],
-               ['eqt',      0 ],
-               ['yuaub',    0 ],
-               ['yuauc',    0 ],
-               ['yubuc',    0 ],
-               ['tpsd',     0] 
+               ['qt',       qt ],
+               ['st',       st ],
+               ['itrms',    itrms ],
+               ['pft',      pft ],
+               ['freq',     freq ],
+               ['ept',      ept ],
+               ['eqt',      eqt ],
+               ['yuaub',    yuaub ],
+               ['yuauc',    yuauc ],
+               ['yubuc',    yubuc ],
+               ['tpsd',     tpsd] 
              ]);
      
              var options = {
@@ -134,161 +252,223 @@
                chart.draw(data, options);
              }, 3000);
              setInterval(function() {
-               data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+               data.setValue(1, 1, qt);
                chart.draw(data, options);
              }, 3000);
              setInterval(function() {
-               data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(2, 1, st);
                chart.draw(data, options);
              }, 3000);
              setInterval(function() {
-               data.setValue(3, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(3, 1, itrms);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(4, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(4, 1, pft);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(5, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(5, 1, freq);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(6, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(6, 1, ept);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(7, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(7, 1, eqt);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(8, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(8, 1, yuaub);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(9, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(9, 1, yuauc);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(10, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(10, 1, yubuc);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
              setInterval(function() {
-               data.setValue(11, 1, 60 + Math.round(20 * Math.random()));
+               data.setValue(11, 1, tpsd);
                chart.draw(data, options);
-             }, 26000);
+             }, 3000);
             
             
-             var dataF = google.visualization.arrayToDataTable([
+             var dataA = google.visualization.arrayToDataTable([
               ['Label', 'Value'],
               ['p',     pa ],
-              ['q',     0 ],
-              ['s',     0 ],
-              ['urms',  0 ],
-              ['itrms', 0 ],
-              ['pf',    0 ],
-              ['pg',    0 ],
-              ['eq',    0 ]                       
+              ['q',     qa ],
+              ['s',     sa ],
+              ['urms',  urmsa],
+              ['itrms', itrmsa],
+              ['pf',    pfa ],
+              ['pg',    pga ],
+              ['eq',    eqa ]                       
             ]);
 
-            var optionsF = {
+            var optionsA = {
               width: 800, height: 240,
               redFrom: 90, redTo: 100,
               yellowFrom:75, yellowTo: 90,
               minorTicks: 5
             };
 
-            var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FA'));
+            var chartA = new google.visualization.Gauge(document.getElementById('chart_div_FA'));
 
-            chartF.draw(dataF, optionsF);
+            chartA.draw(dataA, optionsA);
 
             
 
             setInterval(function() {
-               data.setValue(0, 1, 0);
-               chart.draw(data, options);
-             }, 13000);
-             setInterval(function() {
-               data.setValue(13, 1, 40 + Math.round(60 * Math.random()));
-               chart.draw(data, options);
-             }, 5000);
-             setInterval(function() {
-               data.setValue(14, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(15, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(16, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(17, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(18, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(19, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
-             setInterval(function() {
-               data.setValue(20, 1, 60 + Math.round(20 * Math.random()));
-               chart.draw(data, options);
-             }, 26000);
+               dataA.setValue(0, 1, pa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(1, 1, qa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(2, 1, sa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(3, 1, urmsa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(4, 1, itrmsa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(5, 1, pfa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(6, 1, pga);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+            setInterval(function() {
+               dataA.setValue(7, 1, eqa);
+               chartA.draw(dataA, optionsA);
+             }, 3000);
+             
 
 
-             var dataF = google.visualization.arrayToDataTable([
+             var dataB = google.visualization.arrayToDataTable([
               ['Label', 'Value'],
               ['p',     pb],
-              ['q',     0],
-              ['s',     0],
-              ['urms',  0],
-              ['itrms', 0],
-              ['pf',    0],
-              ['pg',    0],
-              ['eq',    0]                        
+              ['q',     pb],
+              ['s',     sb],
+              ['urms',  urmsb],
+              ['itrms', itrmsb],
+              ['pf',    pfb],
+              ['pg',    pgb],
+              ['eq',    eqb]                        
             ]);
 
-            var optionsF = {
+            var optionsB = {
               width: 800, height: 240,
               redFrom: 90, redTo: 100,
               yellowFrom:75, yellowTo: 90,
               minorTicks: 5
             };
 
-            var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FB'));
+            var chartB = new google.visualization.Gauge(document.getElementById('chart_div_FB'));
 
-            chartF.draw(dataF, optionsF);
+            chartB.draw(dataB, optionsB);
 
-            var dataF = google.visualization.arrayToDataTable([
+            setInterval(function() {
+               dataB.setValue(0, 1, pb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(1, 1, qb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(2, 1, sb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(3, 1, urmsb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(4, 1, itrmsb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(5, 1, pfb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(6, 1, pgb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+            setInterval(function() {
+               dataB.setValue(7, 1, eqb);
+               chartB.draw(dataB, optionsB);
+             }, 3000);
+
+            var dataC = google.visualization.arrayToDataTable([
               ['Label', 'Value'],
               ['p',     pc],
-              ['q',     0],
-              ['s',     0],
-              ['urms',  0],
-              ['itrms', 0],
-              ['pf',    0],
-              ['pg',    0],
+              ['q',     qc],
+              ['s',     sc],
+              ['urms',  urmsc],
+              ['itrms', itrmsc],
+              ['pf',    pfc],
+              ['pg',    pgc],
               ['eq',    0]                        
             ]);
 
-          var optionsF = {
+          var optionsC = {
             width: 800, height: 240,
             redFrom: 90, redTo: 100,
             yellowFrom:75, yellowTo: 90,
             minorTicks: 5
           };
 
-          var chartF = new google.visualization.Gauge(document.getElementById('chart_div_FC'));
+          var chartC = new google.visualization.Gauge(document.getElementById('chart_div_FC'));
 
-          chartF.draw(dataF, optionsF);
-        }
-        
+          chartC.draw(dataC, optionsC);
+
+          setInterval(function() {
+               dataC.setValue(0, 1, pc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(1, 1, qc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(2, 1, sc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(3, 1, urmsc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(4, 1, itrmsc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(5, 1, pfc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(6, 1, pgc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+          setInterval(function() {
+               dataC.setValue(7, 1, eqc);
+               chartC.draw(dataC, optionsC);
+             }, 3000);
+        }            
          </script>        
         
         {% endblock %}
