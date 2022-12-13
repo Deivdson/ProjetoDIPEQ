@@ -8,72 +8,20 @@
     <title>SW - Energy</title>
     <!--<meta http-equiv="refresh" content="5; {% url 'swenergy:index' %}">-->
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <!--<link rel="stylesheet" href="{% static 'swenergy/css/style.css' %}">-->
+    <link rel="preload" href="{% static 'swenergy/js/script.js' %}" as="script" />
   {% endblock %}
-  {% block scripts %} 
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load("current", {packages:['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-        function drawChart() {
-          {% for sensor in sensores %}
-          var data = google.visualization.arrayToDataTable([
-            ["Data", "KWh", { role: "style" } ],
-            {% for consumo in sensor.consumo_set.all %}
-            ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
-            {% endfor %}
-          ]);
-    
-          var view = new google.visualization.DataView(data);
-          view.setColumns([0, 1,
-                           { calc: "stringify",
-                             sourceColumn: 1,
-                             type: "string",
-                             role: "annotation" },
-                           2]);
-    
-          var options = {
-            title: "Gráfico consumo diário - {{sensor}}",
-            width: 600,
-            height: 400,
-            bar: {groupWidth: "95%"},
-            legend: { position: "none" },
-          };
-          var chart = new google.visualization.ColumnChart(document.getElementById("{{sensor}}"));
-          chart.draw(view, options);
-          {% endfor %}
-      }
-    </script>
-
-
-    {% endblock %}
 </head>
 {% block main-menu %}
 {% endblock %}
+
 {% block conteudo %}
 <body>
-  <script>
-
-    var request = new XMLHttpRequest();
-
-    request.open('GET', `/api/data/`);
-
-    request.responseType = 'json';
-    request.send();
-
-    request.onload = function(){
-      var data = JSON.stringify(request.response);
-      var dataJSON = request.response;
-      console.log(dataJSON); 
-      dataJSON.map((sensor1)=>{
-        console.log("PT: "+sensor1)
-      });
-    }
-
-    </script>
     <script type="text/javascript" src="https://jscharting.com/JSC15/JSCharting.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
+  <section class="corpo" style="margin-top: 20%;">
 
     <h1>Tela Inicial</h1>
 
@@ -103,7 +51,7 @@
             {% endfor %}
           </fieldset> 
     -->
-    
+  </section>
 </body>    
 {% endblock %}
 </html>

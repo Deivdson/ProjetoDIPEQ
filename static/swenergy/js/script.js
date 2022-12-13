@@ -44,3 +44,4 @@ function redireciona(){
 var search = document.getElementById("search").value;
 location.href="{% url 'swenergy:index' %}" + search;
 }
+

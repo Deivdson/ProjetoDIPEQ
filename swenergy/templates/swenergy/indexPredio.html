@@ -15,7 +15,7 @@
         google.charts.load("current", {packages:['corechart']});
         google.charts.setOnLoadCallback(drawChart);
         function drawChart() {
-          {% for sensor in sensores %}
+          {% for sensor in predio.sensor_set.all %}
           var data = google.visualization.arrayToDataTable([
             ["Data", "KWh", { role: "style" } ],
             {% for consumo in sensor.consumo_set.all %}
@@ -49,25 +49,6 @@
 </head>
 {% block conteudo %}
 <body>
-  <script>
-
-    var request = new XMLHttpRequest();
-
-    request.open('GET', `/api/data/`);
-
-    request.responseType = 'json';
-    request.send();
-
-    request.onload = function(){
-      var data = JSON.stringify(request.response);
-      var dataJSON = request.response;
-      console.log(dataJSON); 
-      dataJSON.map((sensor1)=>{
-        console.log("PT: "+sensor1)
-      });
-    }
-
-    </script>
     <script type="text/javascript" src="https://jscharting.com/JSC15/JSCharting.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
@@ -89,7 +70,7 @@
     </ul>
 
     <fieldset>Consumo diário por sensor:
-    {% for sensor in sensores %}
+    {% for sensor in predio.sensor_set.all %}
     <div id="{{sensor}}" style="width: 900px; height: 300px;"></div>
     {% endfor %}
     </fieldset>
