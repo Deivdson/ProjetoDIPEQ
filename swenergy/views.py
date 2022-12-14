@@ -55,7 +55,13 @@ class index(View):
 
             hora = now.strftime('%H:%M')
             if hora == "10:52":
-                consumo = Consumo(data=date, inicio=data.getlist('ept')[0], sensor=sensor)
+                try:
+                    consumo = get_object_or_404(Consumo, data=date)
+                    if consumo:
+                        pass
+                    else:
+                        consumo = Consumo(data=date, inicio=data.getlist('ept')[0], sensor=sensor)
+                except:
                 consumo.save()
             if hora == "23:59":
                 consumo = get_object_or_404(data=date)
