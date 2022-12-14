@@ -11,19 +11,9 @@
 <body>
     
     {% block conteudo %}
-    <style>
-        body{
-            font-size: 30pt;
-        }
-        input{
-            font-size: 30pt;
-        }
-        button{
-            font-size: 30pt;
-        }
-    </style>
-    <section style="padding-left: 500px;">
-        <fieldset style="width: 200px;">
+    
+    <section style="padding: 50px 500px;">
+        <fieldset style="width: 50%;">
             <button>
                 <a href="{% url 'swenergy:editar' predio.id %}">Editar</a>
             </button>
@@ -33,6 +23,7 @@
         
         {% for sensor in predio.sensor_set.all %}
         <h3>Sensor: <a href="{% url 'swenergy:detalhes' sensor.id%}">{{sensor}}</a> </h3>
+        <hr>
         
         Consumo do Mês:
         <br><br>

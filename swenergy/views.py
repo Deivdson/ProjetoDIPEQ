@@ -53,7 +53,13 @@ class indexPredio(View):
     #@csrf_exempt
     def get(self,request,*args,**kwargs):
         predio = get_object_or_404(Predio, pk=kwargs['pk'])
-        contexto = {'predio':predio}
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        contexto = {'predio':predio, 'consumo_mes':consumo_mes}
         return render(request,'swenergy/indexPredio.html', contexto)
 
     def post(self,request,*args,**kwargs):
