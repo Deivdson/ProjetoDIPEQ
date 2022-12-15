@@ -14,6 +14,20 @@
 
 </head>
 {% block main-menu %}
+<nav class="navbar navbar-light bg-light">
+  <a class="navbar-brand" href="#">
+    <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    SWEnergy
+  </a>
+  <ul>
+    {% if user.is_authenticated %}
+    <li style="margin-left: 34px;"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a></li>
+    {% else %}
+    <li><a class="btn btn-outline-dark"  href="{% url 'login'%}">Login</a></li>
+    <li><a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
+    {% endif %}
+  </ul>
+</nav>
 {% endblock %}
 
 {% block conteudo %}
@@ -23,37 +37,19 @@
 
   <section class="corpo" >
 
-    <h1>Tela Inicial</h1>
-
-    <a href="http://127.0.0.1:8000/relatoriopdf/" download="Relatorio.pdf">Baixar relatório</a> - 
-    <a href="{% url 'swenergy:relatoriopdf' %}"> Ver relátorio geral</a>
-    <br>
-    <br>
-
-    <ul class="list-group" style="padding-left: 25%; width: 50%;">
-      <li class="list-group-item active">
-        Edifícios: <a href="{% url 'swenergy:addPredio'%}">Novo Edifício</a>
+    <ul class="list-group" style="padding-left: 25%; width: 50%; margin: 10% 10%;">
+      <li class="list-group-item active d-flex justify-content-between align-items-center" style="text-align: center; display: flex;">
+        Edifícios: <a class="btn btn-light" href="{% url 'swenergy:addPredio'%}" style="font-size: 80%;">Novo Edifício</a>
       </li>
       {% for predio in predios %} 
-      <li class="list-group-item">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="{% url 'swenergy:indexPredio' predio.id %}">{{predio.nome}} - ID: {{predio.id}}</a>
-        <a class="badge badge-primary badge-pill" href=" {% url 'swenergy:detalhesPredio' predio.id %}">   Detalhes</a>
+        <a class="badge badge-primary badge-pill" href=" {% url 'swenergy:detalhesPredio' predio.id %}">
+            Detalhes
+        </a>
       </li>
       {% endfor %}
     </ul>
-
-    
-    <ul>
-        {% for predio in predios %}
-        <li>
-          <a href="{% url 'swenergy:indexPredio' predio.id %}">{{predio.nome}} - ID: {{predio.id}}</a>
-          <a href=" {% url 'swenergy:detalhesPredio' predio.id %}"> | Detalhes</a>
-
-          
-        </li>
-        {% endfor %}
-    </ul>
-
   </section>
 </body>    
 {% endblock %}

@@ -106,13 +106,17 @@
                 </li>
     
                 <li class="nav-item">
-                    <a class="nav-link" href=" {% url 'swenergy:addSensor' predio.id %}">Novo sensor</a>
+                    <a class="nav-link">Meta(Kwh): {{predio.meta}} </a>
+                </li>
+
+                <li class="nav-item" >
+                    <span class="nav-link"> Consumo(kwh): {{consumo_mes}}</span>
                 </li>
 
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Relatórios
-                  </a>
+                  </a>                  
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <!--
                     <a class="dropdown-item" href="#">Action</a>
@@ -122,17 +126,13 @@
                     <a class="dropdown-item" href="http://127.0.0.1:8000/relatoriopdf/" download="Relatorio.pdf">Baixar relatório</a> - 
                     <a class="dropdown-item" href="{% url 'swenergy:relatoriopdf' %}"> Ver relátorio geral</a>
                   </div>
-                </li>
-
-                <li class="nav-item" >
-                    <span class="nav-link"> Consumo(kwh): {{consumo_mes}}</span>
-                </li>
+                </li>                
                
                 {% if user.is_authenticated %}
-                <li style="margin-left: 34px;"><a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a></li>
+                <li style="margin-left: 34px;"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/" style="margin-left: 1000%;">Logout</a></li>
                 {% else %}
-                <li><a class="nav-link" href="{% url 'login'%}">Login</a></li>
-                <li><a class="nav-link" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
+                <li><a class="btn btn-outline-dark" href="{% url 'login'%}">Login</a></li>
+                <li><a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
            
                 {% endif %}
 
@@ -145,21 +145,21 @@
         {% block msg %}
 
             {% if msg %}
-            <span style="background-color:darkslategrey; color:aliceblue;">
+            <div class="alert alert-primary" role="alert">
                 {{msg}}
-            </span>
+            </div>            
             {% endif %}
 
             {% if msg_sucess %}
-            <span style="background-color: darkslategrey; color:mediumspringgreen;">
+            <div class="alert alert-success" role="alert">
                 {{msg_sucess}}
-            </span>
+            </div>            
             {% endif %}
             
             {% if msg_erro %}
-            <span style="background-color: darkslategrey; color:crimson;">
+            <div class="alert alert-danger" role="alert">
                 {{msg_erro}}
-            </span>
+            </div>                            
             {% endif %}
         
         {% endblock %}
