@@ -8,7 +8,7 @@
         
 {% endblock %}
 {% block conteudo %}
-<body>
+<body style="color: aliceblue; background-color: rgb(132, 132, 132);">
     
 
     {% if form.errors %}
@@ -17,33 +17,31 @@
     {% endfor %}
     {% endif %}
 
-    <section style="padding-left: 600px;">
+    <section style="margin: 5% 40%; background-color: rgb(129, 164, 228); padding: 20px; border-radius: 5px;">
         <h2>Faça o seu Login</h2>
-        <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
+        <hr>
+        <fieldset style="margin: 3px 40px;">
 
             <form id="contact" action="{% url 'swenergy:login' %}" method="post">
             {% csrf_token %}
-            <input type="hidden" name="next" value="{{ next }}"/>
-            <div class="row">
-                <div class="col-md-12">
-                    <fieldset>
-                    Digite o seu login: {{ form.username }}
-                    </fieldset>
-                </div>
-                <div class="col-md-12">
-                    <fieldset>
-                    Digite a sua senha: {{ form.password }}
-                    </fieldset>
-                </div>
-                <div>
-                <fieldset>
-                    <input type="submit" id="form-submit" class="button" value="Realizar Login"/>
-                </fieldset>
-                </div>
+            <div class="form-group">
+                <input type="hidden" name="next" value="{{ next }}"/>      
+                <fieldset style="border-radius: 10px">
+                Digite o seu login:<br> {{ form.username }}
+                </fieldset>  
             </div>
+            <div class="form-group">
+                <fieldset style="border-radius: 10px">
+                Digite a sua senha:<br> {{ form.password }}
+                </fieldset>
+            </div>
+                <fieldset style="margin: 3px 30px;">
+                    <input style="border-radius: 10px" type="submit" id="form-submit" class="button" value="Realizar Login"/>
+                </fieldset>
             </form>
         </fieldset>
-        <p>Não possui cadastro? <a href="{% url 'swenergy:cadastro' %}"> Cadastre-se!</a></p>
+        <p style="margin: 5px 50px;">Não possui cadastro?<br> <a href="{% url 'swenergy:cadastro' %}"> Cadastre-se!</a></p>
+    </div>
     </section>
 
 </body>

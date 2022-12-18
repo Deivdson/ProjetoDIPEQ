@@ -59,7 +59,14 @@ class indexPredio(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        contexto = {'predio':predio, 'consumo_mes':consumo_mes}
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+        contexto = {
+            'predio':predio, 
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area
+            }
         return render(request,'swenergy/indexPredio.html', contexto)
 
     def post(self,request,*args,**kwargs):
@@ -72,13 +79,26 @@ class detalhes(View):
     def get(self, request, *args, **kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         predio = sensor.predio
+
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+
         consumos_diarios = Consumo.objects.filter(tipo='diario', sensor=sensor)
         consumos_mensais = Consumo.objects.filter(tipo='mensal', sensor=sensor)
         contexto = {
             'sensor':sensor,
             'predio':predio,
             'consumos_diarios':consumos_diarios,
-            'consumos_mensai':consumos_mensais
+            'consumos_mensai':consumos_mensais,
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area
         }
         return render(request, 'swenergy/detalhes.html', contexto)
 
@@ -88,7 +108,24 @@ class detalhes(View):
 class detalhesPredio(View):
     def get(self, request, *args, **kwargs):
         predio = get_object_or_404(Predio, pk=kwargs['pk'])
-        return render(request, 'swenergy/detalhesPredio.html', {'predio':predio})
+
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+
+        contexto = {
+            'predio':predio, 
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area
+            }
+
+        return render(request, 'swenergy/detalhesPredio.html', contexto)
 
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
@@ -96,11 +133,26 @@ class detalhesPredio(View):
 class addSensor(View):
     def get(self, request, *args, **kwargs):
         predio = get_object_or_404(Predio, pk=kwargs['pk'])
-        contexto = {'predio':predio}
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+
+        contexto = {
+            'predio':predio, 
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area
+            }
         return render(request, 'swenergy/formSensor.html', contexto)
     
     def post(self, request, *args, **kwargs):
-        sensor  = Sensor(titulo=request.POST['titulo'])
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        sensor  = Sensor(titulo=request.POST['titulo'], predio=predio)
         sensor.save()
         fa      = Fase(tipo='A', sensor = sensor)
         fb      = Fase(tipo='B', sensor = sensor)
@@ -108,7 +160,23 @@ class addSensor(View):
         fa.save()
         fb.save()
         fc.save()
-        contexto = {'sensor':sensor, 'msg':'Sensor cadastrado!'}
+
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+        contexto = {
+            'sensor':sensor,
+            'predio':predio, 
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area,
+            'msg':'Sensor cadastrado!'
+            }
         return render(request, 'swenergy/detalhes.html',contexto)
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
@@ -150,7 +218,26 @@ class addPredio(View):
 class editar(View):
     def get(self,request,*args,**kwargs):
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
-        return render(request, 'swenergy/editar.html', {'sensor':sensor})
+        predio = sensor.predio
+
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+        
+        contexto = {
+            'sensor':sensor,
+            'predio':predio, 
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area,
+            'msg':'Sensor cadastrado!'
+            }
+        return render(request, 'swenergy/editar.html', contexto)
     def post(self,request,*args,**kwargs):
         sensor = get_object_or_404(Sensor, pk=request.POST['id'])
         sensor.titulo = request.POST['titulo']
@@ -348,5 +435,14 @@ def get_relatorio(request):
     #wget.download("127.0.0.1:8000/relatoriopdf")
     return HttpResponse
 
+def ConsumoMensal(self, predio):
+    consumo_mes = 0
+    for sensor in predio.sensor_set.all():
+        for consumo in sensor.consumo_set.all():
+            if consumo.total:
+                consumo_mes =consumo_mes + float(consumo.total)
+    return consumo_mes
+        
+        
 
 

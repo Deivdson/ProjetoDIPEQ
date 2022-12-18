@@ -53,27 +53,37 @@
     <script type="text/javascript" src="https://jscharting.com/JSC15/JSCharting.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 
-    <div style="display: flex; margin: 30px 30px; height: 700px;">
+    <div style="display: flex; margin: 30px 80px; height: 700px;">
       <div class="card">
-        <img class="card-img-top" src={% static "swenergy/img/nit.png" %} alt="Card image cap" height="350px" width="100px">
-        <div class="card-body">
-          <h5 class="card-title">Perfil da Edificação</h5>
-          <ul>
-            <li class="card-text">Área útil(m2): {{predio.area}} </li>
-            <li class="card-text">População:  {{predio.populacao}}    </li>
-            <li class="card-text">Pavimentos: {{predio.pavimentos}}          </li>
-            <li class="card-text">POT. INST.(kw): {{predio.PotInst}}      </li>
-            <li class="card-text">Geração FV: 
-              {% if predio.geracaoFV == True %}
-                Sim
-              {% else %}
-                Não
-              {% endif %}
-            </li>
-            <li class="card-text">Idade(data):   {{predio.idade}}    </li>
-          </ul>
-          <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        </div>
+        <img class="card-img-top" src={% static "swenergy/img/nit.png" %} alt="Card image cap" height="340px">
+        <div class="card-body" style="display: flex;">
+          <section>
+            <h5 class="card-title">Perfil da Edificação</h5>
+            <ul>
+              <li class="card-text">Área útil(m2): {{predio.area}} </li>
+              <li class="card-text">População:  {{predio.populacao}}    </li>
+              <li class="card-text">Pavimentos: {{predio.pavimentos}}          </li>
+              <li class="card-text">POT. INST.(kw): {{predio.PotInst}}      </li>
+              <li class="card-text">Geração FV: 
+                {% if predio.geracaoFV == True %}
+                  Sim
+                {% else %}
+                  Não
+                {% endif %}
+              </li>
+              <li class="card-text">Idade(data):   {{predio.idade}}    </li>
+            </ul>
+          </section>
+          <section style="margin-left: 100px;">
+            <h5 class="card-title">Nível de eficiência-RTQ-C</h5>
+            <ul>
+              <li class="card-text">Sistema Nota        </li>
+              <li class="card-text">Iluminação          </li>
+              <li class="card-text">Condicion. de ar    </li>
+              <li class="card-text">Envoltória          </li>
+            </ul>
+          </section>
+        </div>  
       </div>
   
       <div class="card border-dark mb-3" style=" margin: 5px 70px; height: 80%; width: 30%; overflow: scroll;">
@@ -82,8 +92,8 @@
           <ul class="list-group">
             <li class="list-group-item disabled">Consumo</li>
             <li class="list-group-item">{{consumo_mes}} Kwh/mês</li>
-            <li class="list-group-item">{{consumo_mes}} Kwh/m2</li>
-            <li class="list-group-item">{{consumo_mes}} Kwh/pessoa</li>
+            <li class="list-group-item">{{consumo_area}} Kwh/m2</li>
+            <li class="list-group-item">{{consumo_pessoa}} Kwh/pessoa</li>
           </ul><br>
           <ul class="list-group">
             <li class="list-group-item disabled">Ambiental</li>

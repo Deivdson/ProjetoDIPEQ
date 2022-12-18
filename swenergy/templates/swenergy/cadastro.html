@@ -2,21 +2,46 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
+
+{% block main-menu %}
+{% endblock %}
 {% block conteudo %}
-<body>
-    <section style="padding-left: 600px;">
-        <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
+<body style="color: aliceblue; background-color: rgb(132, 132, 132);">
+    <section style="margin: 5% 40%; background-color: rgb(129, 164, 228); padding: 20px; border-radius: 5px;">
+        <h2 style="margin-left: 20%;">Faça o seu Cadastro</h2>
+        <hr>
+        <fieldset style="width: 600px; padding: 10px;">
         
             <form action="{% url 'swenergy:cadastro' %}" method="post">
                 {% csrf_token %} 
-                Nome:  
-                <input type="text" name="nome" /><br>
-                UserName:
-                <input type="text" name="username" /><br>
-                Senha:
-                <input type="password" name="senha" /><br>
-            
-                <input type="submit" value="Cadastrar" />
+
+                <section style="margin-left:20px ;">
+                    <div class="form-group">
+                        <fieldset style="border-radius: 10px">
+                            Nome:  <br>
+                            <input type="text" name="nome" /><br>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-group">
+                        <fieldset style="border-radius: 10px">
+                            UserName:<br>
+                            <input type="text" name="username" /><br>
+                        </fieldset>
+                    </div>
+
+                    <div class="form-group">
+                        <fieldset style="border-radius: 10px">
+                            Senha:<br>
+                            <input type="password" name="senha" /><br>
+                        </fieldset>
+                    </div>
+
+                </section>
+                
+                <fieldset style="margin: 5px 70px;">
+                    <input style="border-radius: 10px" type="submit" value="Cadastrar" />
+                </fieldset>
             </section>
         </form>
         

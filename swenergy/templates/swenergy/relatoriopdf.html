@@ -48,7 +48,8 @@
         </ul><br>
     
         {% endfor %}
-        Consumos diários:
+        <br>
+        <strong> Consumos diários:</strong>
         <br><br>
         {% for consumo in sensor.consumo_set.all %}
         <strong>Data:</strong> {{consumo.data.day}} / {{consumo.data.month}} / {{consumo.data.year}} <br>
