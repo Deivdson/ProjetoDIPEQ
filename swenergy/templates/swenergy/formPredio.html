@@ -8,64 +8,81 @@
 </head>
 <body>
     {% block main-menu %}
-        <fieldset style="padding: 3px;">
-            <ul style="display:flex; gap:50px; list-style-type:none;">
-                <li><a href=" {% url 'swenergy:index' %}">Início</a></li>                                
-                <li><a href="{% url 'logout' %}?next=/">Logout</a></li>                                
-            </ul>
-        </fieldset><br>
-        {% endblock %}
+    <nav class="navbar navbar-light bg-light">
+        <a class="navbar-brand" href="#">
+          <img src="#" width="30" height="30" class="d-inline-block align-top" alt="">
+          SWEnergy
+        </a>
+        <ul>
+          {% if user.is_authenticated %}
+          <li style="margin-left: 34px;"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a></li>
+          {% else %}
+          <li><a class="btn btn-outline-dark"  href="{% url 'login'%}">Login</a></li>
+          <li><a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
+          {% endif %}
+        </ul>
+    </nav>
+    {% endblock %}
     {% block conteudo %}
-    <fieldset style="padding: 50px 50px 450px 550px;">
-    <header>
-        <h2>Cadastre um novo Edifício</h2>
-    </header>
-    <section>
-        <fieldset style="width: 80px; padding: 10px 30px;">
-            <form action="{% url 'swenergy:addPredio' %}" method="post">
-            {% csrf_token %}
-                <label for="titulo">Insira o nome do edifício:</label><br>
-                <input type="text" name="titulo" id="titulo">
-                <br>
-                <label for="co2">Insira o índice de CO2:</label><br>
-                <input type="text" name="co2" id="co2">
-                <br>
-                <label for="kwh">Insira a média de KWh por:</label><br>
-                <input type="text" name="kwh" id="kwh">
-                <br>
-                <label for="economico">Valor economizado total:</label><br>
-                <input type="text" name="economico" id="economico">
-                <br>
-                <label for="meta">Meta:</label><br>
-                <input type="text" name="meta" id="meta">
-                <br>
-                <label for="area">Área total do edifício:</label><br>
-                <input type="number" name="area" id="area">
-                <br>
-                <label for="pop">População total:</label><br>
-                <input type="number" name="pop" id="pop">
-                <br>
-                <label for="pav">Pavimentos:</label><br>
-                <input type="number" name="pav" id="pav">
-                <br>
-                <label for="pi">Post.Inst.:</label><br>
-                <input type="text" name="pi" id="pi">
-                <br>
-                <label for="GFV">Geração FV? S/N:</label><br>
-                <input type="radio" name="GFV" id="S" value="1">
-                <label for="GFV">Sim</label>
-                <input type="radio" name="GFV" id="N" value="2">
-                <label for="GFV">Não</label>
-                <br>
-                <label for="idade">Idade:</label><br>
-                <input type="number" name="idade" id="idade">
-                <br>
-                <br>
-                <input type="submit" style="width: 200px; padding:5px 5px 5px 5px;">
-            </form>
-        </fieldset>
-    </section>
-    </fieldset>
+        <section style="margin: 5% 30%; background-color: rgb(129, 164, 228); color: aliceblue; padding: 40px; border-radius: 5px; min-width: 400px;">
+            <header>
+                <h2>Cadastre um novo Edifício</h2>
+                <hr>
+            </header>
+            <fieldset>
+                <form action="{% url 'swenergy:addPredio' %}" method="post">
+                {% csrf_token %}
+                <div style="display: flex; margin-top: 30px;">
+                    <div>
+                        <label for="titulo">Insira o nome do edifício:</label><br>
+                        <input style="border-radius: 10px" type="text" name="titulo" id="titulo">
+                        <br>
+                        <label for="co2">Insira o índice de CO2:</label><br>
+                        <input style="border-radius: 10px" type="text" name="co2" id="co2">
+                        <br>
+                        <label for="kwh">Insira a média de KWh por:</label><br>
+                        <input style="border-radius: 10px" type="text" name="kwh" id="kwh">
+                        <br>
+                        <label for="economico">Valor economizado total:</label><br>
+                        <input style="border-radius: 10px" type="text" name="economico" id="economico">
+                        <br>
+                        <label for="meta">Meta:</label><br>
+                        <input style="border-radius: 10px" type="text" name="meta" id="meta">
+                        <br>
+                    </div>
+                    <div style="margin-left: 70px;">                        
+                        <label for="area">Área total do edifício:</label><br>
+                        <input style="border-radius: 10px" type="number" name="area" id="area">
+                        <br>
+                        <label for="pop">População total:</label><br>
+                        <input style="border-radius: 10px" type="number" name="pop" id="pop">
+                        <br>
+                        <label for="pav">Pavimentos:</label><br>
+                        <input style="border-radius: 10px" type="number" name="pav" id="pav">
+                        <br>
+                        <label for="pi">Post.Inst.:</label><br>
+                        <input style="border-radius: 10px" type="text" name="pi" id="pi">
+                        <br>
+                        <label for="GFV">Geração FV? S/N:</label><br>
+                        <input type="radio" name="GFV" id="S" value="1">
+                        <label for="GFV">Sim</label>
+                        <input type="radio" name="GFV" id="N" value="2">
+                        <label for="GFV">Não</label>
+                        <br>
+                    </div>
+                </div>
+                    
+                    <label for="idade">Idade:</label><br>
+                    <input style="border-radius: 10px" type="number" name="idade" id="idade">
+                    <br>
+                    <br>
+                    <div style="margin: 5px 13%; width: 90%;">
+                        <button type="button" class="btn btn-light" style="border-radius:10px; width: 80%; " type="submit">Enviar</button>                        
+                    </div>
+                </form>
+            </fieldset>
+        </section>
+    
     <footer> &#xa9; SWEnergy</footer>
     {% endblock %}
 </body>

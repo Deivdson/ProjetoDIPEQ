@@ -5,14 +5,6 @@
     <title>Formulário Sensor</title>
 </head>
 <body>
-    <style>
-        input{
-            font-size: 30pt;
-        }
-        button{
-            font-size: 30pt;
-        }
-    </style>
 
     <fieldset style="padding: 50px 50px 450px 80px;">
 
@@ -21,11 +13,10 @@
                 Voltar/Cancelar
             </a>
         </button>
-    <header style="padding-left: 600px; font-size:30pt;">
+    <header>
         <h2>Edição de sensor</h2>
     </header>
-    <section style="padding-left: 600px;">
-        <fieldset style="width: 500px; padding: 10px 10px 10px 10px; font-size:30pt;">
+        <fieldset style="width: 500px; padding: 10px 10px 10px 10px;">
             <form action="{% url 'swenergy:editar' sensor.id %}" method="post">
             {% csrf_token %}
                 <input type="hidden" value="{{sensor.id}}" name="id">

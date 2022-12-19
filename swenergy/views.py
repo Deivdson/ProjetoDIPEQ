@@ -316,7 +316,23 @@ class NiveisEnergia(View):
         faseA = Fase.objects.get(tipo='A')
         faseB = Fase.objects.get(tipo='C')
         faseC = Fase.objects.get(tipo='B')
-        return render(request, 'swenergy/niveis.html', {'predio':predio,'sensor':sensor, 'faseA':faseA, 'faseB':faseB, 'faseC':faseC})
+
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+        contexto = {
+            'predio':predio,'sensor':sensor, 
+            'faseA':faseA,'faseB':faseB, 
+            'faseC':faseC,'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area
+            }
+        return render(request, 'swenergy/niveis.html', contexto)
 
 class EnviarAlerta(View):
     def get(self, request, *args, **kwargs):

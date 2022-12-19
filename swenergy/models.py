@@ -18,6 +18,10 @@ class Predio(models.Model):
     geracaoFV = models.BooleanField(default=False)
     idade = models.IntegerField(null=True)
 
+    Iluminacao = models.CharField(max_length=1, null=True)
+    CondAr = models.CharField(max_length=1, null=True)
+    envoltoria = models.CharField(max_length=1, null=True)
+
     def __str__(self):
         return self.nome
 
@@ -71,3 +75,12 @@ class Consumo(models.Model):
         return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)
 
 
+class Eficiencia(models.Model):
+    #Nível de eficiencia
+    data = models.DateField()
+    Iluminação = models.CharField(max_length=1)
+    CondAr = models.CharField(max_length=1)
+    envoltoria = models.CharField(max_length=1)
+    predio = models.ForeignKey(Predio, on_delete=models.CASCADE, null=True)
+    def __str__(self):
+        return('Eficiência do edifício {}').format(self.predio)
