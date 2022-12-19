@@ -15,16 +15,22 @@
         </a>
         <ul>
           {% if user.is_authenticated %}
-          <li style="margin-left: 34px;"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a></li>
+          <li class="d-flex justify-content-between align-items-center" >
+            <a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a>
+        </li>
           {% else %}
-          <li><a class="btn btn-outline-dark"  href="{% url 'login'%}">Login</a></li>
-          <li><a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
+          <li class="d-flex justify-content-between align-items-center">
+            <a class="btn btn-outline-dark"  href="{% url 'login'%}">Login</a>
+            </li>
+          <li class="d-flex justify-content-between align-items-center">
+            <a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a>
+            </li>
           {% endif %}
         </ul>
     </nav>
     {% endblock %}
     {% block conteudo %}
-        <section style="margin: 5% 30%; background-color: rgb(129, 164, 228); color: aliceblue; padding: 40px; border-radius: 5px; min-width: 400px;">
+        <section style="margin: 5% 30%; background-color: rgb(129, 164, 228); color: aliceblue; padding: 3% 7%; border-radius: 5px; min-width: 400px;">
             <header>
                 <h2>Cadastre um novo Edifício</h2>
                 <hr>
@@ -83,7 +89,9 @@
             </fieldset>
         </section>
     
-    <footer> &#xa9; SWEnergy</footer>
+        <hr>
+        <footer style="margin-left: 50%;"> &#xa9; SWEnergy</footer>
+        <br>
     {% endblock %}
 </body>
 </html>

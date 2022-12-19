@@ -129,10 +129,14 @@
                 </li>                
                
                 {% if user.is_authenticated %}
-                <li style="margin-left: 34px;"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/" style="margin-left: 1000%;">Logout</a></li>
+                <li class="d-flex justify-content-between align-items-center"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a></li>
                 {% else %}
-                <li><a class="btn btn-outline-dark" href="{% url 'login'%}">Login</a></li>
-                <li><a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a></li>
+                <li class="d-flex justify-content-between align-items-center">
+                  <a class="btn btn-outline-dark" href="{% url 'login'%}">Login</a>
+                </li>
+                <li class="d-flex justify-content-between align-items-center">
+                  <a class="btn btn-outline-dark" href="{% url 'swenergy:cadastro' %}">Cadastre-se</a>
+                </li>
            
                 {% endif %}
 

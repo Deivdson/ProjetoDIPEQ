@@ -15,7 +15,7 @@
                 Voltar/Cancelar
             </a>
         </button>
-        <section style="margin: 5% 30%; background-color: rgb(129, 164, 228); color: aliceblue; padding: 40px; border-radius: 5px; min-width: 400px;">
+        <section section style="margin: 5% 30%; background-color: rgb(129, 164, 228); color: aliceblue; padding: 3% 7%; border-radius: 5px; min-width: 400px;">
         <header >
             <h2>Edição de Edifício</h2>
             <hr>
@@ -24,58 +24,69 @@
                 
                     <form action="{% url 'swenergy:editarPredio' predio.id%}" method="post">
                     {% csrf_token %}
-                        <input type="hidden" value="{{predio.id}}" name="id">
-                        <span>ID: {{predio.id}}</span><br>
-                        <label for="nome">Nome do Edifício:</label><br>
-                        <input type="text" name="nome" id="nome" value="{{predio.nome}}"><br>
-                        <label for="co2">Insira o índice de CO2:</label><br>
-                        <input type="text" name="co2" id="co2"  value="{{predio.Co2}}">
-                        <br>
-                        <label for="kwh">Insira a média de KWh por:</label><br>
-                        <input type="text" name="kwh" id="kwh"  value="{{predio.KHW}}">
-                        <br>
-                        <label for="economico">Valor economizado total:</label><br>
-                        <input type="text" name="economico" id="economico"  value="{{predio.economico}}">
-                        <br>
-                        <label for="meta">Meta:</label><br>
-                        <input type="text" name="meta" id="meta" value="{{predio.meta}}">
-                        <br>
-                        <label for="area">Área total do edifício:</label><br>
-                        <input type="text" name="area" id="area" value="{{predio.area}}">
-                        <br>
-                        <label for="pop">População total:</label><br>
-                        <input type="text" name="pop" id="pop" value="{{predio.População}}">
-                        <br>
-                        <label for="pav">Pavimentos:</label><br>
-                        <input type="text" name="pav" id="pav" value="{{predio.Pavimentos}}">
-                        <br>
-                        <label for="pi">Post.Inst.:</label><br>
-                        <input type="text" name="pi" id="pi" value="{{predio.PostInst}}">
-                        <br>
-                        <label for="GFV">Geração FV? S/N:</label><br>
-                        {% if predio.geracaoFV == true %}
-                        <input type="radio" name="GFV" id="S" value="1" checked>
-                        <label for="GFV">Sim</label>
-                        <input type="radio" name="GFV" id="N" value="2">
-                        <label for="GFV">Não</label>
-                        {% else %}
-                        <input type="radio" name="GFV" id="S" value="1">
-                        <label for="GFV">Sim</label>
-                        <input type="radio" name="GFV" id="N" value="2" checked>
-                        <label for="GFV">Não</label>
-                        {% endif %}
-                        <br>
+                    <div style="display: flex; margin-top: 30px;">
+                        <div>
+                            <input style="border-radius: 10px" type="hidden" value="{{predio.id}}" name="id">
+                            <span>ID: {{predio.id}}</span><br>
+                            <label for="nome">Nome do Edifício:</label><br>
+                            <input style="border-radius: 10px" type="text" name="nome" id="nome" value="{{predio.nome}}"><br>
+                            <label for="co2">Insira o índice de CO2:</label><br>
+                            <input style="border-radius: 10px" type="text" name="co2" id="co2"  value="{{predio.Co2}}">
+                            <br>
+                            <label for="kwh">Insira a média de KWh por:</label><br>
+                            <input style="border-radius: 10px" type="text" name="kwh" id="kwh"  value="{{predio.KHW}}">
+                            <br>
+                            <label for="economico">Valor economizado total:</label><br>
+                            <input style="border-radius: 10px" type="text" name="economico" id="economico"  value="{{predio.economico}}">
+                            <br>
+                            <label for="meta">Meta:</label><br>
+                            <input style="border-radius: 10px" type="text" name="meta" id="meta" value="{{predio.meta}}">
+                            <br>
+                        </div>
+                        <div style="margin-left: 10%;">
+                            <br>
+                            <label for="area">Área total do edifício:</label><br>
+                            <input style="border-radius: 10px" type="text" name="area" id="area" value="{{predio.area}}">
+                            <br>
+                            <label for="pop">População total:</label><br>
+                            <input style="border-radius: 10px" type="text" name="pop" id="pop" value="{{predio.População}}">
+                            <br>
+                            <label for="pav">Pavimentos:</label><br>
+                            <input style="border-radius: 10px" type="text" name="pav" id="pav" value="{{predio.Pavimentos}}">
+                            <br>
+                            <label for="pi">Post.Inst.:</label><br>
+                            <input style="border-radius: 10px" type="text" name="pi" id="pi" value="{{predio.PostInst}}">
+                            <br>
+                            <label for="GFV">Geração FV? S/N:</label><br>
+                            {% if predio.geracaoFV == true %}
+                            <input style="border-radius: 10px" type="radio" name="GFV" id="S" value="1" checked>
+                            <label for="GFV">Sim</label>
+                            <input style="border-radius: 10px" type="radio" name="GFV" id="N" value="2">
+                            <label for="GFV">Não</label>
+                            {% else %}
+                            <input style="border-radius: 10px" type="radio" name="GFV" id="S" value="1">
+                            <label for="GFV">Sim</label>
+                            <input style="border-radius: 10px" type="radio" name="GFV" id="N" value="2" checked>
+                            <label for="GFV">Não</label>
+                            {% endif %}
+                            <br>
+                        </div>
+                    </div>
                         <label for="idade">Idade:</label><br>
-                        <input type="text" name="idade" id="idade" value="{{predio.idade}}">
+                        <input style="border-radius: 10px" type="text" name="idade" id="idade" value="{{predio.idade}}">
                         <br>
                         <br>
-                        <input type="submit" value="Salvar modificações">
+                        <div style="margin: 5px 13%; width: 90%;">
+                            <button type="button" class="btn btn-light" style="border-radius:10px; width: 80%; " type="submit">Enviar</button>                        
+                        </div>
                     </form>
                 
             </section>
         </section>
     </fieldset>
-    <footer> &#xa9; SWEnergy</footer>
+    <hr>
+    <footer style="margin-left: 50%;"> &#xa9; SWEnergy</footer>
+    <br>
     {%endblock%}
 </body>
 </html>

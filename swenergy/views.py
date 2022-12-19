@@ -403,6 +403,7 @@ class Controller(View):
                         cont +=1
                     media = total/cont
                     consumo_mes = Consumo(data=date, total=total, media=media, tipo='mensal', sensor=sensor)
+                    consumo_mes.save()
         sensor.save()
 
         if date.weekday()<5 and float(sensor.ept) >= 600:
