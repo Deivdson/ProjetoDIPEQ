@@ -28,6 +28,7 @@ urlpatterns = [
     path('detalhesPredio/<int:pk>/', views.detalhesPredio.as_view(), name='detalhesPredio'),
 
     path('niveis/<int:pk>/', views.NiveisEnergia.as_view(), name='niveis'),
+    path('eficiencia/<int:pk>/', views.Eficiencia.as_view(), name='eficiencia'),
     #testePDF
     path('relatorio/', views.GeraPDF, name='relatorio'),
     #SerializadorPDF

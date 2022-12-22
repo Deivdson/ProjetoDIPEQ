@@ -129,9 +129,11 @@
                 </li>                
                
                 {% if user.is_authenticated %}
-                <li class="d-flex justify-content-between align-items-center"><a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a></li>
-                {% else %}
                 <li class="d-flex justify-content-between align-items-center">
+                  <a class="btn btn-outline-dark" href="{% url 'logout' %}?next=/">Logout</a>
+                </li>
+                {% else %}
+                <li class="d-flex justify-content-between align-items-center">                  
                   <a class="btn btn-outline-dark" href="{% url 'login'%}">Login</a>
                 </li>
                 <li class="d-flex justify-content-between align-items-center">

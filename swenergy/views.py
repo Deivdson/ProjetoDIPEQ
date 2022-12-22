@@ -188,7 +188,6 @@ class addPredio(View):
     def post(self, request, *args, **kwargs):
         predio  = Predio(
             nome        = request.POST['titulo'],
-            Co2         = request.POST['co2'],
             KWh         = request.POST['kwh'],
             economico   = request.POST['economico'],
             meta        = request.POST['meta'],
@@ -254,8 +253,34 @@ class editarPredio(View):
     def post(self,request,*args,**kwargs):
         predio = get_object_or_404(Predio, pk=request.POST['id'])
         predio.nome = request.POST['nome']
-        predio.save()
+        
+        predio.KWh = request.POST['kwh']
+        predio.economico = request.POST['economico']
+        predio.meta = request.POST['meta']
+        predio.area = request.POST['area']
+        predio.pupulacao = request.POST['pupulacao']
+        predio.pavimentos = request.POST['pop']
+        predio.PotInst = request.POST['pav']
+        predio.geracaoFV = request.POST['pi']
+        predio.idade = request.POST['idade']
+        predio.save()                                
         return render(request, 'swenergy/indexPredio.html', {'predio':predio, 'msg_sucess':'Edições salvas!'})
+
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
+class ExcluirPredio(View):
+    def get(self,request, **kwargs):
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        predio.delete()
+
+@method_decorator(
+    login_required(login_url='/login'), name='dispatch'
+)
+class ExcluirSensor(View):
+    def get(self,request, **kwargs):
+        sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
+        sensor.delete()
 
 class cadastro(View):
     def get(self,request,*args,**kwargs):
@@ -333,6 +358,20 @@ class NiveisEnergia(View):
             'consumo_area':consumo_area
             }
         return render(request, 'swenergy/niveis.html', contexto)
+
+class Eficiencia(View):
+    def get(self,request,*args,**kwargs):
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])
+        return render(request, 'swenergy/editarPredio.html', {'predio':predio})
+    def post(self,request,*args,**kwargs):
+        predio = get_object_or_404(Predio, pk=request.POST['id'])
+    
+        predio.Iluminacao   = request.POST['Iluminacao']
+        predio.CondAr       = request.POST['CondAr']
+        predio.envoltoria   = request.POST['envoltoria']
+        predio.save()
+        return render(request, 'swenergy/indexPredio.html', {'predio':predio, 'msg_sucess':'Edições salvas!'})
+
 
 class EnviarAlerta(View):
     def get(self, request, *args, **kwargs):

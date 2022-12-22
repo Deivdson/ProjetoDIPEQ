@@ -12,26 +12,85 @@
     
     {% block conteudo %}
     
-    <section style="padding: 50px 500px;">
-        <fieldset style="width: 50%;">
-            <button>
-                <a href="{% url 'swenergy:editarPredio' predio.id %}">Editar Informações do Edifício</a>
-            </button>
-        </fieldset>
-        <fieldset style="width: 60%;">
-        <h2>{{predio.titulo}}</h2>
-        
-        {% for sensor in predio.sensor_set.all %}
-        <h3>Sensor: <a href="{% url 'swenergy:detalhes' sensor.id%}">{{sensor}}</a> </h3>
-        <hr>
-        
-        Consumo do Mês:
-        <br><br>
-        {% for consumo in sensor.consumo_set.all %}
-        <strong>Data:</strong> {{consumo.data}} <br><strong>Consumo total:</strong> {{consumo.total}}<br><br>
-        {% endfor %}
+    <section style="padding: 5% 2%;">
+        <div class="card w-75" style="padding: 2%">
+            <div class="card-body">
+              <h2 class="card-title">{{predio.nome}}</h2>
+              <hr>
+                <div class="d-flex" style="padding: 5%;">
+                    
+                    <div>
+                        <h5 class="card-title">Dados gerais</h5>
+                        <p class="card-text" >
+                            <sapn>Meta: {{predio.meta}}</sapn><br>
+                            <sapn>População: {{predio.populacao}}</sapn><br>
+                            <sapn>Pavimentos: {{predio.pavimentos}}</sapn><br>
+                            <sapn>Pot. Inst.: {{predio.PotInst}}</sapn><br>
+                            <sapn>Geração F.V.: {{predio.geracaoFV}}</sapn><br>
+                            <sapn>Idade: {{predio.idade}}</sapn><br>
+                        </p>
+                    </div>
+                    
 
-        {% endfor %}
+                    <div style="margin-left:10%;">
+                        <h5 class="card-title">Nível de eficiência-RTQ-C</h5><br>
+                        <ul>
+                            <li class="d-flex justify-content-between align-items-center">Sistema <span class="badge badge-primary ">Nota</span></li>
+                            <li class="d-flex justify-content-between align-items-center">Iluminação
+                            {% if predio.Iluminacao == "A" %}
+                            <span class="badge badge-sucess ">{{predio.Iluminacao}}</span></li>
+                            {% elif predio.Iluminacao == "B" %}
+                            <span class="badge badge-warning ">{{predio.Iluminacao}}</span></li>
+                            {% else %}
+                            <span class="badge badge-danger ">{{predio.Iluminacao}}</span></li>
+                            {% endif %}
+
+                            <li class="d-flex justify-content-between align-items-center">Condicion. de ar 
+                            {% if predio.CondAr == "A" %}
+                            <span class="badge badge-sucess ">{{predio.CondAr}}</span></li>
+                            {% elif predio.CondAr == "B" %}
+                            <span class="badge badge-warning ">{{predio.CondAr}}</span></li>
+                            {% else %}
+                            <span class="badge badge-danger ">{{predio.CondAr}}</span></li>
+                            {% endif %}         
+
+                            <li class="d-flex justify-content-between align-items-center">Envoltória
+                            {% if predio.envoltoria == "A" %}
+                            <span class="badge badge-sucess ">{{predio.envoltoria}}</span></li>
+                            {% elif predio.envoltoria == "B" %}
+                            <span class="badge badge-warning ">{{predio.envoltoria}}</span></li>
+                            {% else %}
+                            <span class="badge badge-danger ">{{predio.envoltoria}}</span></li>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+
+              </div>
+              <a href="{% url 'swenergy:editarPredio' predio.id %}" class="btn btn-primary" style="margin-left: 5%;">Editar Dados</a>
+              <a href="{% url 'swenergy:eficiencia' predio.id %}" class="btn btn-primary" style="margin-left: 10%;">Editar Notas</a>
+            </div>
+          </div>
+        
+        <fieldset style="margin-top: 30px;">
+            
+            <h3>Sensores:</h3>                 
+            
+            <div style="margin: 20px;">
+                {% for sensor in predio.sensor_set.all %}
+                <div class="d-flex">
+                    <h4><a href="{% url 'swenergy:detalhes' sensor.id%}">{{sensor}}</a> </h4>                    
+                </div>
+                <hr>
+                
+                Consumo do Mês:
+                <br><br>
+                {% for consumo in sensor.consumo_set.all %}
+                <strong>Data:</strong> {{consumo.data}} <br><strong>Consumo total:</strong> {{consumo.total}}<br><br>
+                {% endfor %}
+
+                {% endfor %}
+            </div>            
         </fieldset>
     </section>  
     {% endblock %}
