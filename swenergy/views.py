@@ -89,13 +89,13 @@ class detalhes(View):
         consumo_pessoa = consumo_mes/predio.pupulacao
         consumo_area = consumo_mes/predio.area
 
-        consumos_diarios = Consumo.objects.filter(tipo='diario', sensor=sensor)
-        consumos_mensais = Consumo.objects.filter(tipo='mensal', sensor=sensor)
+        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor)
         contexto = {
             'sensor':sensor,
             'predio':predio,
             'consumos_diarios':consumos_diarios,
-            'consumos_mensai':consumos_mensais,
+            'consumos_mensais':consumos_mensais,
             'consumo_mes':consumo_mes, 
             'consumo_pessoa':consumo_pessoa, 
             'consumo_area':consumo_area
