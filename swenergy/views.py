@@ -61,8 +61,14 @@ class indexPredio(View):
         
         consumo_pessoa = consumo_mes/predio.pupulacao
         consumo_area = consumo_mes/predio.area
+
+        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor)
+
         contexto = {
-            'predio':predio, 
+            'predio':predio,
+            'consumos_diarios':consumos_diarios,
+            'consumos_mensais':consumos_mensais, 
             'consumo_mes':consumo_mes, 
             'consumo_pessoa':consumo_pessoa, 
             'consumo_area':consumo_area
@@ -233,15 +239,39 @@ class editar(View):
             'predio':predio, 
             'consumo_mes':consumo_mes, 
             'consumo_pessoa':consumo_pessoa, 
-            'consumo_area':consumo_area,
-            'msg':'Sensor cadastrado!'
+            'consumo_area':consumo_area,            
             }
         return render(request, 'swenergy/editar.html', contexto)
     def post(self,request,*args,**kwargs):
         sensor = get_object_or_404(Sensor, pk=request.POST['id'])
         sensor.titulo = request.POST['titulo']
         sensor.save()
-        return render(request, 'swenergy/detalhes.html', {'sensor':sensor, 'msg_sucess':'Edições salvas!'})
+
+        predio = sensor.predio
+
+        consumo_mes = 0
+        for sensor in predio.sensor_set.all():
+            for consumo in sensor.consumo_set.all():
+                if consumo.total:
+                    consumo_mes =consumo_mes + float(consumo.total)
+        
+        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_area = consumo_mes/predio.area
+
+        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor)
+        
+        contexto = {
+            'sensor':sensor,            
+            'predio':predio,
+            'consumos_diarios':consumos_diarios,
+            'consumos_mensais':consumos_mensais, 
+            'consumo_mes':consumo_mes, 
+            'consumo_pessoa':consumo_pessoa, 
+            'consumo_area':consumo_area,
+            'msg_sucess':'Edições salvas!',            
+            }
+        return render(request, 'swenergy/detalhes.html', contexto)
 
 @method_decorator(
     login_required(login_url='/login'), name='dispatch'
@@ -338,9 +368,9 @@ class NiveisEnergia(View):
     def get(self, request, *args, **kwargs):        
         sensor = get_object_or_404(Sensor, pk=kwargs['pk'])
         predio = sensor.predio
-        faseA = Fase.objects.get(tipo='A')
-        faseB = Fase.objects.get(tipo='C')
-        faseC = Fase.objects.get(tipo='B')
+        faseA = Fase.objects.filter(tipo='A').filter(sensor=sensor)
+        faseB = Fase.objects.filter(tipo='B').filter(sensor=sensor)
+        faseC = Fase.objects.filter(tipo='C').filter(sensor=sensor)
 
         consumo_mes = 0
         for sensor in predio.sensor_set.all():
@@ -362,7 +392,7 @@ class NiveisEnergia(View):
 class Eficiencia(View):
     def get(self,request,*args,**kwargs):
         predio = get_object_or_404(Predio, pk=kwargs['pk'])
-        return render(request, 'swenergy/editarPredio.html', {'predio':predio})
+        return render(request, 'swenergy/eficiencia.html', {'predio':predio})
     def post(self,request,*args,**kwargs):
         predio = get_object_or_404(Predio, pk=request.POST['id'])
     
@@ -424,42 +454,42 @@ class Controller(View):
             sensor.tpsd     = data.getlist('tpsd')[0]
 
             hora = now.strftime('%H:%M')
-            consumo_do_dia = get_object_or_404(Consumo, data=hora)
+            alerta_mensal  = 0
+            consumo_do_dia = Consumo.objects.filter(data=date).filter(tipo='diario').filter(sensor=sensor).first()
+            consumo_mes = Consumo.objects.filter(data=date).filter(tipo='mensal').filter(sensor=sensor).first()
             if hora == "00:00" and not(consumo_do_dia):
                 consumo = Consumo(data=date, inicio=data.getlist('ept')[0], sensor=sensor)
-                consumo.save()
-            if hora == "23:59":
-                consumo = get_object_or_404(Consumo, data=date)
-                consumo.fim = data.getlist('ept')[0]
-                consumo.save()
-                
-                if date == last_day:
-                    cont = 0
-                    consumos = Consumo.objects.filter(sensor=sensor)
-                    total = 0
-                    for consumo in consumos:
-                        total += consumo.total
-                        cont +=1
-                    media = total/cont
-                    consumo_mes = Consumo(data=date, total=total, media=media, tipo='mensal', sensor=sensor)
-                    consumo_mes.save()
+                consumo.save()      
+                consumo_mes = Consumo(data=date, total=0, tipo='mensal', sensor=sensor)
+                consumo_mes.save()          
+
+            if hora == "23:59":            
+                consumo_do_dia.fim = data.getlist('ept')[0]
+                consumo_do_dia.total = (consumo.fim - consumo.inicio)/100
+                consumo_do_dia.save()
+                                              
+                consumo_mes.total += consumo.total
+                alerta_mensal = consumo_mes.total
+                consumo_mes.save()
         sensor.save()
 
-        if date.weekday()<5 and float(sensor.ept) >= 600:
+        if date.weekday()<5 and (float(sensor.ept) >= 600 or alerta_mensal>10000):
             msgRetorno = 'Um alerta foi emitido.'
             email = Email()
             try:
-                email.send('Alerta de Consumo!', '{0}\nO consumo está acima dos níveis normais. Consumo total: {1}'.format((date.strftime('%d/%m/%y')), sensor.ept), ['deividson.silva@escolar.ifrn.edu.br'])
+                email.send('Alerta de Consumo!', '{0}\nO consumo está acima dos níveis normais. Consumo total do dia: {1}/600 Consumo do mês: {2}/10000'.format((date.strftime('%d/%m/%y')), sensor.ept, alerta_mensal), ['deividson.silva@escolar.ifrn.edu.br'])
             except:
                 msgRetorno = 'Falha no envio de alerta'
+                print(msgRetorno)
 
-        elif date.weekday()>4 and float(sensor.ept) >= 150:
+        elif date.weekday()>4 and (float(sensor.ept) >= 150 or alerta_mensal>10000):
             msgRetorno = 'Um alerta foi emitido.'
             email = Email()
             try:
-                email.send('Alerta de Consumo!', '{0}\nO consumo está acima dos níveis normais. Consumo total: {1}'.format((date.strftime('%d/%m/%y')), sensor.ept), ['deividson.silva@escolar.ifrn.edu.br'])
+                email.send('Alerta de Consumo!', '{0}\nO consumo está acima dos níveis normais. Consumo total do dia: {1}/150 Consumo do mês: {2}/10000'.format((date.strftime('%d/%m/%y')), sensor.ept, alerta_mensal), ['deividson.silva@escolar.ifrn.edu.br'])
             except:
                 msgRetorno = 'Falha no envio de alerta'
+                print(msgRetorno)
 
         return HttpResponse
 

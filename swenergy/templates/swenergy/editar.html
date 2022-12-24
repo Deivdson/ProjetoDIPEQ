@@ -1,3 +1,5 @@
+{% extends "swenergy/base.html" %}
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,61 +7,37 @@
     <title>Formulário Sensor</title>
 </head>
 <body>
-
+{% block conteudo %}
     <fieldset style="padding: 50px 50px 450px 80px;">
 
-        <button>
-            <a href="{% url 'swenergy:detalhes' sensor.id %}">
-                Voltar/Cancelar
+        <button type="button" class="btn btn-outline-danger">
+            <a style="color: black;" href="{% url 'swenergy:detalhes' sensor.id %}">
+                Cancelar
             </a>
         </button>
-    <header>
-        <h2>Edição de sensor</h2>
-    </header>
-        <fieldset style="width: 500px; padding: 10px 10px 10px 10px;">
-            <form action="{% url 'swenergy:editar' sensor.id %}" method="post">
-            {% csrf_token %}
-                <input type="hidden" value="{{sensor.id}}" name="id">
-                <span>ID: {{sensor.id}}</span><br>
-                <label for="titulo">Nome do sensor:</label><br>
-                <input type="text" name="titulo" id="titulo" value="{{sensor.titulo}}">
 
-                <!--
-                <label> h-m-s</label>
-                <label>Potência ativa total</label>
-                <label>Potência reativa total</label>
-                <label>Potência aparente total </label>
-                <label>Corrente total</label>
-                <label>Fator de potência total</label>
-                <label>Frequência</label>
-                <label>Consumo de energia ativa total</label>
-                <label>Consumo de energia reativa total</label>
-                <label>Ângulo entre Tensão Fase A e Fase B</label>
-                <label>Ângulo entre Tensão Fase B e Fase C</label>
-                <label>Ângulo entre Tensão Fase B e Fase C</label>
-                <label>Temperatura</label>
-
-                <input type="number" name="time">
-                <input type="number" name="pt">
-                <input type="number" name="qt">
-                <input type="number" name="st">
-                <input type="number" name="itrms">
-                <input type="number" name="pft">
-                <input type="number" name="freq">
-                <input type="number" name="ept">
-                <input type="number" name="eqt">
-                <input type="number" name="yuaub">
-                <input type="number" name="yuauc">
-                <input type="number" name="yubuc">
-                <input type="number" name="tpsd">
-            -->
-                <br>
-                <br>
-                <input type="submit" value="Salvar modificações">
-            </form>
+    
+        <fieldset style=" padding: 5% 35%;">
+            <div class="card border-dark mb-3" style="max-width: 20rem; min-width: 18rem;">
+                <div class="card-header">                    
+                    <h2>Edição de sensor</h2>                    
+                </div>
+                <div class="card-body text-dark">                  
+                    <form action="{% url 'swenergy:editar' sensor.id %}" method="post">
+                        {% csrf_token %}
+                            <input class="form-control" type="hidden" value="{{sensor.id}}" name="id">
+                            <h5>ID: {{sensor.id}}</h5><br>
+                            <label for="titulo">Nome do sensor:</label><br>
+                            <input class="form-control" type="text" name="titulo" id="titulo" value="{{sensor.titulo}}">                
+                            <br>
+                            <input style="margin: 0% 15%;" class="btn btn-primary" type="submit" value="Salvar modificações">
+                        </form>
+                </div>
+              </div>
         </fieldset>
     </section>
-    </fieldset>
-    <footer> &#xa9; SWEnergy</footer>
+    </fieldset>    
+    <footer style="margin-left: 50%;"> &#xa9; SWEnergy</footer>
+    {%endblock%}
 </body>
 </html>

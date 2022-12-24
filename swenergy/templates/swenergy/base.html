@@ -151,21 +151,32 @@
         {% block msg %}
 
             {% if msg %}
-            <div class="alert alert-primary" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <div class="alert alert-primary" role="alert">
                 {{msg}}
-            </div>            
+              </div> 
+              <span aria-hidden="true">&times;</span>
+            </button>
+                       
             {% endif %}
 
             {% if msg_sucess %}
-            <div class="alert alert-success" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <div class="alert alert-success" role="alert">
                 {{msg_sucess}}
-            </div>            
+              </div>            
+              <span aria-hidden="true">&times;</span>
+            </button>
+            
             {% endif %}
             
             {% if msg_erro %}
-            <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <div class="alert alert-danger" role="alert">
                 {{msg_erro}}
-            </div>                            
+              </div>                            
+              <span aria-hidden="true">&times;</span>
+            </button>            
             {% endif %}
         
         {% endblock %}

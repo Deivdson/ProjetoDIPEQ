@@ -10,9 +10,9 @@
     {%block conteudo%}
     <fieldset style="padding: 50px 50px 450px 80px;">
 
-        <button>
-            <a href="{% url 'swenergy:indexPredio' predio.id %}">
-                Voltar/Cancelar
+        <button type="button" class="btn btn-outline-danger">
+            <a style="color: black;" href="{% url 'swenergy:indexPredio' predio.id %}">
+                Cancelar
             </a>
         </button>
         <section section style="margin: 5% 30%; background-color: rgb(129, 164, 228); color: aliceblue; padding: 3% 7%; border-radius: 5px; min-width: 400px;">

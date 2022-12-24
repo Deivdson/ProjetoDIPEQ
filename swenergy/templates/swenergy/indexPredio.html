@@ -20,7 +20,9 @@
           var data = google.visualization.arrayToDataTable([
             ["Data", "KWh", { role: "style" } ],
             {% for consumo in sensor.consumo_set.all %}
+            {% if consumo.tipo == 'diario' %}
             ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
+            {% endif %}
             {% endfor %}
           ]);
     
@@ -39,7 +41,35 @@
             bar: {groupWidth: "95%"},
             legend: { position: "none" },
           };
-          var chart = new google.visualization.ColumnChart(document.getElementById("{{sensor}}"));
+          var chart = new google.visualization.ColumnChart(document.getElementById("{{sensor}}_diarios"));
+          chart.draw(view, options);
+          {% endfor %}
+          {% for sensor in predio.sensor_set.all %}
+          var data = google.visualization.arrayToDataTable([
+            ["Data", "KWh", { role: "style" } ],
+            {% for consumo in sensor.consumo_set.all %}
+            {% if consumo.tipo == 'mensal' %}
+            ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
+            {% endif %}
+            {% endfor %}
+          ]);
+    
+          var view = new google.visualization.DataView(data);
+          view.setColumns([0, 1,
+                           { calc: "stringify",
+                             sourceColumn: 1,
+                             type: "string",
+                             role: "annotation" },
+                           2]);
+    
+          var options = {
+            title: "Gráfico consumo mensal - {{sensor}}",
+            width: 600,
+            height: 400,
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+          };
+          var chart = new google.visualization.ColumnChart(document.getElementById("{{sensor}}_mensais"));
           chart.draw(view, options);
           {% endfor %}
       }
@@ -175,7 +205,8 @@
       <div class="card-body text-warning">
         <fieldset>
           {% for sensor in predio.sensor_set.all %}
-          <div id="{{sensor}}" style="width: 900px; height: 300px;"></div>
+          <div id="{{sensor}}_diarios" style="min-width: 900px; min-height: 300px;"></div>
+          <div id="{{sensor}}_mensais" style="min-width: 900px; min-height: 300px;"></div>
           {% endfor %}
           </fieldset>
       </div>

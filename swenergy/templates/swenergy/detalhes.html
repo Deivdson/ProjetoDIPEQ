@@ -51,43 +51,47 @@
            
         <fieldset style="margin-top: 30px;">
 
-            <div class="d-flex ">
-                <div class="card">
-                    <h3> Consumos diários:</h3>
-                    <br><br>
-                        <div style="margin: 20px;">
+            <div>
+                
+                <div style="display: flex; padding: 10%;">
+                    <div>    
+                        <h3> Consumos diários:</h3>
+                        <br>
+                        
                         {% for consumo in consumos_diarios %}
-                         
-                        <div class="card border-info mb-3" style="max-width: 18rem;">
+                        
+                        <div class="card border-info mb-3" style="max-width: 18rem; margin: 20px;">
         
                             <div class="card-header">
                                 <strong>Data:</strong> {{consumo.data}}                    
                             </div>
         
                             <div class="card-body text-info">
-                              <h5 class="card-title"><strong>Consumo total:</strong> {{consumo.total}}</h5>                      
+                            <h5 class="card-title"><strong>Consumo total:</strong> {{consumo.total}}</h5>                      
                             </div>
                         </div>
                         {% endfor %}
-                </div>
-
-                <div class="card">
-                    <h3>Consumos Mensais:</h3>
-                    <br><br>
-                    {% for consumo in consumos_mensais %}
-                    <div class="card border-warning mb-3" style="max-width: 18rem;">
-                        <div class="card-header">
-                            <strong>Data:</strong>{{consumo.data}} <br>
+                    </div> 
+                        
+                    <div style="margin-left: 20%;">
+                        <h3>Consumos Mensais:</h3>
+                        <br>
+                        {% for consumo in consumos_mensais %}
+                        <div class="card border-warning mb-3" style="max-width: 18rem; margin: 20px;">
+                            <div class="card-header">
+                                <strong>Data:</strong>{{consumo.data}} <br>
+                            </div>
+                            <div class="card-body text-warning">
+                            <h5 class="card-title">
+                                <strong>Consumo total:</strong> {{consumo.total}}<br>
+                                <strong>Média: </strong>        {{consumo.media}}<br>
+                            </h5>                      
+                            </div>
                         </div>
-                        <div class="card-body text-warning">
-                          <h5 class="card-title">
-                            <strong>Consumo total:</strong> {{consumo.total}}<br>
-                            <strong>Média: </strong>        {{consumo.media}}<br>
-                          </h5>                      
-                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
-                </div>            
+
+                </div>      
             </div>
 
            
