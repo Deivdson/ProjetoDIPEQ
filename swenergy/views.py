@@ -402,6 +402,10 @@ class Eficiencia(View):
         predio.save()
         return render(request, 'swenergy/indexPredio.html', {'predio':predio, 'msg_sucess':'Edições salvas!'})
 
+class Contas(View):
+    def get(self, request, *args, **kwargs):
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])        
+        return render(request, 'swenergy/contas.html', {'predio':predio})
 
 class EnviarAlerta(View):
     def get(self, request, *args, **kwargs):

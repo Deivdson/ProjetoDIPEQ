@@ -74,6 +74,15 @@ class Consumo(models.Model):
     def __str__(self):
         return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)
 
+class Custo(models.Model):
+    #Consumo mensal está relacionado à um custo
+    consumo = models.OneToOneField(Consumo, on_delete=models.CASCADE, null=True)
+    tarifaNP = models.FloatField(null=True)
+    tarifaFP = models.FloatField(null=True)
+    NP = models.FloatField(null=True)
+    FP = models.FloatField(null=True)
+    def __str__(self):
+        return ('Consumo do Mês {}'.format(self.consumo.data))
 
 class Eficiencia(models.Model):
     #Nível de eficiencia

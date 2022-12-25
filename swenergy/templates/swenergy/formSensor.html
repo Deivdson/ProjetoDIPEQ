@@ -9,24 +9,27 @@
 <body>
     
     {% block conteudo %}
-    <fieldset style="padding: 50px 50px 450px 550px;">
-    <header>
-        <h2>Cadastre um novo sensor</h2>
-    </header>
+    
     <section>
-        <fieldset style="width: 80px; padding: 10px 30px;">
-            <form action="{% url 'swenergy:addSensor' predio.id %}" method="post">
-            {% csrf_token %}
-                <label for="titulo">Insira o nome do sensor:</label><br>
-                <input type="text" name="titulo" id="titulo">
-                <br>
-                <br>
-                <input type="submit" style="width: 200px; padding:5px 5px 5px 5px;">
-            </form>
+        <fieldset style=" padding: 5% 35%;">
+            <div class="card border-dark mb-3" style="max-width: 20rem; min-width: 18rem;">
+                <div class="card-header">                    
+                    <h2>Cadastre um novo sensor</h2>                    
+                </div>
+                <div class="card-body text-dark">                  
+                    <form action="{% url 'swenergy:addSensor' predio.id %}" method="post">
+                        {% csrf_token %}
+                            <label for="titulo">Insira o nome do sensor:</label><br>
+                            <input class="form-control" type="text" name="titulo" id="titulo">                
+                            <br>
+                            <input style="margin: 0% 15%;" class="btn btn-primary" type="submit" value="Salvar modificações">
+                        </form>
+                </div>
+            </div>
         </fieldset>
     </section>
-    </fieldset>
-    <footer> &#xa9; SWEnergy</footer>
+    
+    <footer style="margin: 40% 40% 0% 0%;"> &#xa9; SWEnergy</footer>
     {% endblock %}
 </body>
 </html>

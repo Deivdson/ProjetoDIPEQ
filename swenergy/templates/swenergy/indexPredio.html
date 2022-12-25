@@ -111,7 +111,7 @@
                 <li class="d-flex justify-content-between align-items-center">Sistema <span class="badge badge-primary ">Nota</span></li>
                 <li class="d-flex justify-content-between align-items-center">Iluminação
                   {% if predio.Iluminacao == "A" %}
-                  <span class="badge badge-sucess ">{{predio.Iluminacao}}</span></li>
+                  <span class="badge badge-success ">{{predio.Iluminacao}}</span></li>
                   {% elif predio.Iluminacao == "B" %}
                   <span class="badge badge-warning ">{{predio.Iluminacao}}</span></li>
                   {% else %}
@@ -120,7 +120,7 @@
 
                 <li class="d-flex justify-content-between align-items-center">Condicion. de ar 
                   {% if predio.CondAr == "A" %}
-                  <span class="badge badge-sucess ">{{predio.CondAr}}</span></li>
+                  <span class="badge badge-success ">{{predio.CondAr}}</span></li>
                   {% elif predio.CondAr == "B" %}
                   <span class="badge badge-warning ">{{predio.CondAr}}</span></li>
                   {% else %}
@@ -129,7 +129,7 @@
 
                 <li class="d-flex justify-content-between align-items-center">Envoltória
                   {% if predio.envoltoria == "A" %}
-                  <span class="badge badge-sucess ">{{predio.envoltoria}}</span></li>
+                  <span class="badge badge-success ">{{predio.envoltoria}}</span></li>
                   {% elif predio.envoltoria == "B" %}
                   <span class="badge badge-warning ">{{predio.envoltoria}}</span></li>
                   {% else %}
@@ -141,7 +141,7 @@
           </div>
           <div style="display: flex; margin: 10%;">
             <div>
-              <a href="#">Contas de Energia</a>
+              <a href="{% url 'swenergy:contas' predio.id %}">Contas de Energia</a>
               <br>
               <a href="#">Avaliação Energética</a>
             </div><br>
@@ -210,70 +210,7 @@
           {% endfor %}
           </fieldset>
       </div>
-      </div>
-    
-
-    
-
-    
-
-    <br><br>
-    <br><br>
-    <section class="options">
-      <a href="/api/data/">Data</a>
-       | 
-      <a href="/niveis/1/">Níveis de energia</a>
-       | 
-      <a href="/data/">Relatório</a>
-    </section>
-
-    <section id="conteudo">
-    </section>
-
-    <br><br>
-    <br><br>
-    <br><br>
-    <script>
-      document.querySelectorAll('.options a').forEach(link => {
-      link.onclick = function (e) {
-          e.preventDefault()
-
-          const conteudo = document.getElementById('conteudo')
-          fetch(link.href)
-          .then(resp => resp.text())
-          .then(html => (conteudo.innerHTML = html))
-      }
-      })
-    </script>
-    <script>
-      function redireciona(){
-      var search = document.getElementById("search").value;
-      location.href="{% url 'swenergy:index' %}" + search;
-      }
-    </script>
-    <fieldset>
-      Dados gerais:
-      <secntion>
-          Data:
-          <p>{{data}}</p>
-          JSON:
-          <p>{{json}}</p>
-          Sessão:
-          <p>{{session}}</p>
-          Args:
-          <p>{{args}}</p>
-          Kwargs:
-          <p>{{kwargs}}</p>
-
-          <br>
-
-          Atributos:
-          <ul>
-              <li>pt: {{pt}}</li>
-          </ul>
-      
-      </section>
-    </fieldset>
+      </div>   
     
 </body>    
 {% endblock %}
