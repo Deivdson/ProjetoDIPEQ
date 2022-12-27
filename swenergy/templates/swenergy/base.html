@@ -111,7 +111,7 @@
 
                 <li class="nav-item" >
                     <span class="nav-link"> Consumo(kwh): {{consumo_mes}}</span>
-                </li>
+                </li>                
 
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -126,7 +126,9 @@
                     <a class="dropdown-item" href="http://127.0.0.1:8000/relatoriopdf/" download="Relatorio.pdf">Baixar relatório</a> - 
                     <a class="dropdown-item" href="{% url 'swenergy:relatoriopdf' predio.id%}"> Ver relátorio geral</a>
                   </div>
-                </li>                
+                </li>
+                
+                
                
                 {% if user.is_authenticated %}
                 <li class="d-flex justify-content-between align-items-center">
@@ -141,6 +143,29 @@
                 </li>
            
                 {% endif %}
+
+                <li  class="nav-item">
+                  <form method=”GET”>
+                    <div class=”input-group-prepend” style="margin-left:100px;">     
+                      <select  name="filtro">
+                        <option type="text" name="mes" id="mes" value="1">Janeiro</option>
+                        <option type="text" name="mes" id="mes" value="2">Fevereiro</option>
+                        <option type="text" name="mes" id="mes" value="3">Março</option>
+                        <option type="text" name="mes" id="mes" value="4">Abril</option>
+                        <option type="text" name="mes" id="mes" value="5">Maio</option>
+                        <option type="text" name="mes" id="mes" value="6">Junho</option>
+                        <option type="text" name="mes" id="mes" value="7">Julho</option>
+                        <option type="text" name="mes" id="mes" value="8">Agosto</option>
+                        <option type="text" name="mes" id="mes" value="9">Setembro</option>
+                        <option type="text" name="mes" id="mes" value="10">Outubro</option>
+                        <option type="text" name="mes" id="mes" value="11">Novembro</option>
+                        <option type="text" name="mes" id="mes" value="12">Dezembro</option>
+                      </select>
+                      <button class="btn btn-outline-dark" style=" padding: 3px 5px;" type=”submit” id="button-addon1">filtrar</button>
+                    </div>
+                  </form>
+                  <ul>                    
+                </li>
 
               </ul>
             </div>

@@ -63,9 +63,13 @@ class indexPredio(View):
         consumo_area = consumo_mes/predio.area
 
         mes = datetime.date.today().month
-        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
-        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__icontains=mes)
-
+        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor).filter(data__month=mes)
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__month=mes)
+        filtro = request.GET.get('filtro')
+        if filtro:
+            print(filtro)
+            consumos_mensais =  Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__month=filtro)
+            consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor).filter(data__month=filtro)
         contexto = {
             'predio':predio,
             'consumos_diarios':consumos_diarios,

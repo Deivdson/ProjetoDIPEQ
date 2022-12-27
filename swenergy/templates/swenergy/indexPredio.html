@@ -21,7 +21,7 @@
             ["Data", "KWh", { role: "style" } ],
             {% for consumo in sensor.consumo_set.all %}
             {% if consumo.tipo == 'diario' %}
-            ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
+            ['{{consumo.data.day}}/{{consumo.data.month}}', {{ consumo.total }}, "#ffd700"],
             {% endif %}
             {% endfor %}
           ]);
@@ -48,7 +48,7 @@
           var data = google.visualization.arrayToDataTable([
             ["Data", "KWh", { role: "style" } ],
             {% for consumo in sensor.consumo_set.all %}
-            {% if consumo.tipo == 'mensal' and consumo.data.month == '12' %}
+            {% if consumo.tipo == 'mensal' %}
             ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
             {% endif %}
             {% endfor %}
@@ -154,7 +154,8 @@
            
           </div>  
         </div>
-    
+
+        
         <div class="card border-dark mb-3" style=" margin: 5px 70px; height: 80%; min-width: 30%; overflow: scroll;">
           <div class="card-header" style="position: -webkit-sticky; position: sticky;">Indicadores:</div>
           <div class="card-body text-dark">
@@ -211,7 +212,37 @@
           </fieldset>
       </div>
       </div>   
-    
+
+      <form method=”GET”>
+
+        <div class=”input-group-prepend”>     
+          <select  name="filtro">
+            <option type="text" name="mes" id="mes" value="1">Janeiro</option>
+            <option type="text" name="mes" id="mes" value="2">2   </option>
+            <option type="text" name="mes" id="mes" value="3">3   </option>
+            <option type="text" name="mes" id="mes" value="4">4   </option>
+            <option type="text" name="mes" id="mes" value="5">5   </option>
+            <option type="text" name="mes" id="mes" value="6">6   </option>
+            <option type="text" name="mes" id="mes" value="7">7   </option>
+            <option type="text" name="mes" id="mes" value="8">8   </option>
+            <option type="text" name="mes" id="mes" value="9">9   </option>
+            <option type="text" name="mes" id="mes" value="10">10  </option>
+            <option type="text" name="mes" id="mes" value="11">11  </option>
+            <option type="text" name="mes" id="mes" value="12">12  </option>
+          </select>
+          <button class="bnt" type=”submit” id="button-addon1">filtrar</button>
+        </div>
+      </form>
+      <ul>
+      {% for sensor in predio.sensor_set.all %}
+      
+        {%for consumo in consumos_diarios %}
+          {% if consumo.sensor.id == sensor.id %}
+          <li>{{consumo.data}}</li>
+          {%endif%}
+        {%endfor%}
+      {% endfor%}
+    </ul>
 </body>    
 {% endblock %}
 </html>

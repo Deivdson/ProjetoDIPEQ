@@ -75,7 +75,7 @@ class Consumo(models.Model):
     media = models.FloatField(null=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, null=True)
     def __str__(self):
-        return ('Sensor: {0} - Consumo: {1}').format(self.sensor, self.total)
+        return ('Sensor: {0} | Consumo: {1} | Data: {2}').format(self.sensor, self.total, self.data)
 
 class Custo(models.Model):
     #Consumo mensal está relacionado à um custo
