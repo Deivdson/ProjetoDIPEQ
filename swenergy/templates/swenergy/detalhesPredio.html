@@ -90,7 +90,30 @@
                 {% endfor %}
 
                 {% endfor %}
-            </div>            
+            </div>    
+            
+            <div style="display: flex; padding: 10%;">
+                    <div>    
+                        <h3> Consumos diários:</h3>
+                        <br>
+                        
+                        {% for consumo in consumos_diarios %}
+                        
+                        <div class="card border-info mb-3" style="max-width: 18rem; margin: 20px;">
+        
+                            <div class="card-header">
+                                <strong>Data:</strong> {{consumo.data}}                    
+                            </div>
+        
+                            <div class="card-body text-info">
+                            <h5 class="card-title"><strong>Consumo total:</strong> {{consumo.total}}</h5>                      
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div> 
+                        
+
+                </div>   
         </fieldset>
     </section>  
     {% endblock %}

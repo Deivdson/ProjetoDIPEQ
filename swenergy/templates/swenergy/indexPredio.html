@@ -48,7 +48,7 @@
           var data = google.visualization.arrayToDataTable([
             ["Data", "KWh", { role: "style" } ],
             {% for consumo in sensor.consumo_set.all %}
-            {% if consumo.tipo == 'mensal' %}
+            {% if consumo.tipo == 'mensal' and consumo.data.month == '12' %}
             ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
             {% endif %}
             {% endfor %}

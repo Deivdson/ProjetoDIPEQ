@@ -67,7 +67,7 @@ class Fase(models.Model):
         return self.tipo
 
 class Consumo(models.Model):
-    data = models.DateTimeField()
+    data = models.DateField()
     tipo    = models.CharField(max_length=6,default='diario')
     inicio = models.FloatField(null=True)
     fim = models.FloatField(null=True)

@@ -62,8 +62,9 @@ class indexPredio(View):
         consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
 
+        mes = datetime.date.today().month
         consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
-        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor)
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__icontains=mes)
 
         contexto = {
             'predio':predio,
@@ -423,9 +424,9 @@ class EnviarAlerta(View):
 class RelatorioPDF(View, GeraPDFMixin):
     def get(self, request, *args, **kwargs):
         data = datetime.datetime.now()
-        sensores = Sensor.objects.all()
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])        
         dados = {
-            'sensores': sensores,
+            'predio':predio,
             'data': data,
         }
         pdf = GeraPDFMixin()

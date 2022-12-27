@@ -124,7 +124,7 @@
                     <div class="dropdown-divider"></div>
                     -->
                     <a class="dropdown-item" href="http://127.0.0.1:8000/relatoriopdf/" download="Relatorio.pdf">Baixar relatório</a> - 
-                    <a class="dropdown-item" href="{% url 'swenergy:relatoriopdf' %}"> Ver relátorio geral</a>
+                    <a class="dropdown-item" href="{% url 'swenergy:relatoriopdf' predio.id%}"> Ver relátorio geral</a>
                   </div>
                 </li>                
                
