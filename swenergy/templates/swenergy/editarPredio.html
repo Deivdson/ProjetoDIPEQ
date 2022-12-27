@@ -22,7 +22,7 @@
         </header>
             <section>
                 
-                    <form action="{% url 'swenergy:editarPredio' predio.id%}" method="post">
+                    <form action="{% url 'swenergy:editarPredio' predio.id%}" method="post" name="form" id="form">
                     {% csrf_token %}
                     <div style="display: flex; margin-top: 30px;">
                         <div>
@@ -34,7 +34,7 @@
                             <input style="border-radius: 10px" type="text" name="co2" id="co2"  value="{{predio.Co2}}">
                             <br>
                             <label for="kwh">Insira a média de KWh por:</label><br>
-                            <input style="border-radius: 10px" type="text" name="kwh" id="kwh"  value="{{predio.KHW}}">
+                            <input style="border-radius: 10px" type="text" name="kwh" id="kwh"  value="{{predio.KWh}}">
                             <br>
                             <label for="economico">Valor economizado total:</label><br>
                             <input style="border-radius: 10px" type="text" name="economico" id="economico"  value="{{predio.economico}}">
@@ -42,6 +42,8 @@
                             <label for="meta">Meta:</label><br>
                             <input style="border-radius: 10px" type="text" name="meta" id="meta" value="{{predio.meta}}">
                             <br>
+                            <label for="idade">Idade:</label><br>
+                            <input style="border-radius: 10px" type="text" name="idade" id="idade" value="{{predio.idade}}">
                         </div>
                         <div style="margin-left: 10%;">
                             <br>
@@ -49,13 +51,16 @@
                             <input style="border-radius: 10px" type="text" name="area" id="area" value="{{predio.area}}">
                             <br>
                             <label for="pop">População total:</label><br>
-                            <input style="border-radius: 10px" type="text" name="pop" id="pop" value="{{predio.População}}">
+                            <input style="border-radius: 10px" type="text" name="pop" id="pop" value="{{predio.populacao}}">
                             <br>
                             <label for="pav">Pavimentos:</label><br>
-                            <input style="border-radius: 10px" type="text" name="pav" id="pav" value="{{predio.Pavimentos}}">
+                            <input style="border-radius: 10px" type="text" name="pav" id="pav" value="{{predio.pavimentos}}">
                             <br>
                             <label for="pi">Post.Inst.:</label><br>
                             <input style="border-radius: 10px" type="text" name="pi" id="pi" value="{{predio.PostInst}}">
+                            <br>
+                            <label for="tarifaFP">Tarifa Energética:</label><br>
+                            <input style="border-radius: 10px" type="text" name="tarifaFP" id="tarifaFP" value="{{predio.tarifaFP}}">
                             <br>
                             <label for="GFV">Geração FV? S/N:</label><br>
                             {% if predio.geracaoFV == true %}
@@ -72,12 +77,11 @@
                             <br>
                         </div>
                     </div>
-                        <label for="idade">Idade:</label><br>
-                        <input style="border-radius: 10px" type="text" name="idade" id="idade" value="{{predio.idade}}">
+                        
                         <br>
                         <br>
                         <div style="margin: 5px 13%; width: 90%;">
-                            <button type="button" class="btn btn-light" style="border-radius:10px; width: 80%; " type="submit">Enviar</button>                        
+                            <button for="form" class="btn btn-light" style="border-radius:10px; width: 80%;" type="submit">Enviar</button>                        
                         </div>
                     </form>
                 

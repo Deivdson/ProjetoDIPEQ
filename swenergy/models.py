@@ -12,7 +12,7 @@ class Predio(models.Model):
     meta = models.FloatField(null=True)
 
     area = models.FloatField(null=True)
-    pupulacao = models.FloatField(null=True)
+    populacao = models.FloatField(null=True)
     pavimentos = models.FloatField(null=True)
     PotInst = models.FloatField(null=True)
     geracaoFV = models.BooleanField(default=False)
@@ -21,6 +21,9 @@ class Predio(models.Model):
     Iluminacao = models.CharField(max_length=1, null=True)
     CondAr = models.CharField(max_length=1, null=True)
     envoltoria = models.CharField(max_length=1, null=True)
+
+    tarifaNP = models.FloatField(null=True)
+    tarifaFP = models.FloatField(null=True)
 
     def __str__(self):
         return self.nome

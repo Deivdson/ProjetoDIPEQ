@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.views import View
-from .models import Sensor, Fase, Consumo, Predio
+from .models import Sensor, Fase, Consumo, Predio, Custo
 from .utils import GeraPDFMixin, Email
 from django.db import models
 from django.utils.decorators import method_decorator
@@ -59,7 +59,7 @@ class indexPredio(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
 
         consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
@@ -92,7 +92,7 @@ class detalhes(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
 
         consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
@@ -121,7 +121,7 @@ class detalhesPredio(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
 
         contexto = {
@@ -145,7 +145,7 @@ class addSensor(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
 
         contexto = {
@@ -173,7 +173,7 @@ class addSensor(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
         contexto = {
             'sensor':sensor,
@@ -201,6 +201,7 @@ class addPredio(View):
             populacao   = request.POST['pop'], 
             pavimentos  = request.POST['pav'], 
             PotInst     = request.POST['pi'], 
+            tarifaFP    = request.POST['tarifaFP'],
             idade       = request.POST['idade'] 
             )
         geracaofv = request.POST.getlist('GFV')
@@ -231,7 +232,7 @@ class editar(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
         
         contexto = {
@@ -255,7 +256,7 @@ class editar(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
 
         consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor)
@@ -288,7 +289,7 @@ class editarPredio(View):
         predio.economico = request.POST['economico']
         predio.meta = request.POST['meta']
         predio.area = request.POST['area']
-        predio.pupulacao = request.POST['pupulacao']
+        predio.populacao = request.POST['pop']
         predio.pavimentos = request.POST['pop']
         predio.PotInst = request.POST['pav']
         predio.geracaoFV = request.POST['pi']
@@ -378,7 +379,7 @@ class NiveisEnergia(View):
                 if consumo.total:
                     consumo_mes =consumo_mes + float(consumo.total)
         
-        consumo_pessoa = consumo_mes/predio.pupulacao
+        consumo_pessoa = consumo_mes/predio.populacao
         consumo_area = consumo_mes/predio.area
         contexto = {
             'predio':predio,'sensor':sensor, 
@@ -442,6 +443,7 @@ class Controller(View):
         print(dict)
         
         sensor = get_object_or_404(Sensor, pk=1)
+        predio = sensor.predio
 
         if data:
             sensor.pt       = data.getlist('pt')[0]
@@ -467,7 +469,7 @@ class Controller(View):
                 consumo_mes = Consumo(data=date, total=0, tipo='mensal', sensor=sensor)
                 consumo_mes.save()          
 
-            if hora == "23:59":            
+            if hora == "23:59" and consumo_do_dia:            
                 consumo_do_dia.fim = data.getlist('ept')[0]
                 consumo_do_dia.total = (consumo.fim - consumo.inicio)/100
                 consumo_do_dia.save()
@@ -475,6 +477,9 @@ class Controller(View):
                 consumo_mes.total += consumo.total
                 alerta_mensal = consumo_mes.total
                 consumo_mes.save()
+                if date == last_day:
+                    custo = Custo(consumo=consumo_mes, FP=(predio.tarifaFP*consumo_mes.total))
+                    custo.save()
         sensor.save()
 
         if date.weekday()<5 and (float(sensor.ept) >= 600 or alerta_mensal>10000):
