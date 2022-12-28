@@ -39,5 +39,5 @@ urlpatterns = [
 
     #alertas
     path('enviarAlerta/', views.EnviarAlerta.as_view(), name='alerta'),
-    path('api/sensor/', views.Controller.as_view(), name='alerta')
+    path('api/sensor/', views.Controller.as_view(), name='controller')
 ]

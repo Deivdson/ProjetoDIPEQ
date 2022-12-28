@@ -452,8 +452,19 @@ class Controller(View):
         dict.update(data)
         print(dict)
         
-        sensor = get_object_or_404(Sensor, pk=1)
+        sensor = get_object_or_404(Sensor, pk=4)
         predio = sensor.predio
+
+        faseA = Fase.objects.filter(tipo='A').filter(sensor=sensor).first()
+        print(faseA.sensor)
+        print(faseA)
+        faseB = Fase.objects.filter(tipo='B').filter(sensor=sensor).first()
+        print(faseB.sensor)
+        print(faseB)
+        faseC = Fase.objects.filter(tipo='C').filter(sensor=sensor).first()
+        print(faseC.sensor)
+        print(faseC)
+        print(faseC.p)
 
         if data:
             sensor.pt       = data.getlist('pt')[0]
@@ -469,6 +480,40 @@ class Controller(View):
             sensor.yubuc    = data.getlist('yubuc')[0]
             sensor.tpsd     = data.getlist('tpsd')[0]
 
+            print(data.getlist('pa')[0])
+            faseA.p         = data.getlist('pa')[0]
+            faseA.q         = data.getlist('qa')[0]
+            faseA.s         = data.getlist('sa')[0]
+            faseA.urms      = data.getlist('uarms')[0]
+            faseA.itrms     = data.getlist('iarms')[0]
+            faseA.pf        = data.getlist('pfa')[0]
+            faseA.pg        = data.getlist('pga')[0]
+            faseA.ep        = data.getlist('epa')[0]
+            faseA.eq        = data.getlist('eqa')[0]
+
+            faseB.p         = data.getlist('pb')[0]
+            faseB.q         = data.getlist('qb')[0]
+            faseB.s         = data.getlist('sb')[0]
+            faseB.urms      = data.getlist('ubrms')[0]
+            faseB.itrms     = data.getlist('ibrms')[0]
+            faseB.pf        = data.getlist('pfb')[0]
+            faseB.pg        = data.getlist('pgb')[0]
+            faseB.ep        = data.getlist('epb')[0]
+            faseB.eq        = data.getlist('eqb')[0]
+
+            faseC.p         = data.getlist('pc')[0]
+            faseC.q         = data.getlist('qc')[0]
+            faseC.s         = data.getlist('sc')[0]
+            faseC.urms      = data.getlist('ucrms')[0]
+            faseC.itrms     = data.getlist('icrms')[0]
+            faseC.pf        = data.getlist('pfc')[0]
+            faseC.pg        = data.getlist('pgc')[0]
+            faseC.ep        = data.getlist('epc')[0]
+            faseC.eq        = data.getlist('eqc')[0]
+
+            faseA.save()
+            faseB.save()
+            faseC.save()
             hora = now.strftime('%H:%M')
             alerta_mensal  = 0
             consumo_do_dia = Consumo.objects.filter(data=date).filter(tipo='diario').filter(sensor=sensor).first()
@@ -549,5 +594,3 @@ def ConsumoMensal(self, predio):
     return consumo_mes
         
         
-
-
