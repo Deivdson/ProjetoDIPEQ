@@ -63,13 +63,14 @@ class indexPredio(View):
         consumo_area = consumo_mes/predio.area
 
         mes = datetime.date.today().month
-        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor).filter(data__month=mes)
-        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__month=mes)
+        ano = datetime.date.today().year
+        consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor).filter(data__month=mes).order_by('data')
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__month=mes).order_by('data')
         filtro = request.GET.get('filtro')
         if filtro:
             print(filtro)
-            consumos_mensais =  Consumo.objects.filter(tipo='mensal').filter(sensor=sensor).filter(data__month=filtro)
-            consumos_diarios = Consumo.objects.filter(tipo='diario').filter(sensor=sensor).filter(data__month=filtro)
+            consumos_mensais =  consumos_mensais.filter(data__month=filtro).filter(data__year=ano).order_by('data')
+            consumos_diarios = consumos_diarios.filter(data__month=filtro).filter(data__year=ano).order_by('data')
         contexto = {
             'predio':predio,
             'consumos_diarios':consumos_diarios,
@@ -428,10 +429,14 @@ class EnviarAlerta(View):
 class RelatorioPDF(View, GeraPDFMixin):
     def get(self, request, *args, **kwargs):
         data = datetime.datetime.now()
-        predio = get_object_or_404(Predio, pk=kwargs['pk'])        
+        predio = get_object_or_404(Predio, pk=kwargs['pk'])  
+        consumos_diarios = Consumo.objects.filter(tipo='diario').order_by('data')
+        consumos_mensais = Consumo.objects.filter(tipo='mensal').order_by('data')      
         dados = {
             'predio':predio,
             'data': data,
+            'consumos_mensais':consumos_mensais,
+            'consumos_diarios':consumos_diarios
         }
         pdf = GeraPDFMixin()
         return pdf.render_to_pdf('swenergy/relatoriopdf.html', dados)

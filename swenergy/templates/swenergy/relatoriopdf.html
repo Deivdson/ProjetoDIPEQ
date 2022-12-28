@@ -24,12 +24,13 @@
                 <div>
                     <h5 class="card-title">Dados gerais</h5>
                     <p class="card-text" >
-                        <sapn>Meta: {{predio.meta}}</sapn><br>
-                        <sapn>População: {{predio.populacao}}</sapn><br>
-                        <sapn>Pavimentos: {{predio.pavimentos}}</sapn><br>
-                        <sapn>Pot. Inst.: {{predio.PotInst}}</sapn><br>
-                        <sapn>Geração F.V.: {{predio.geracaoFV}}</sapn><br>
-                        <sapn>Idade: {{predio.idade}}</sapn><br>
+                        <span>Meta: {{predio.meta}}             </span><br>
+                        <span>População: {{predio.populacao}}   </span><br>
+                        <span>Pavimentos: {{predio.pavimentos}} </span><br>
+                        <span>Pot. Inst.: {{predio.PotInst}}    </span><br>
+                        <span>Geração F.V.: {{predio.geracaoFV}}</span><br>
+                        <span>Idade: {{predio.idade}}           </span><br>
+                        <span>Trafifa Energética: {{predio.tarifaFP}}           </span><br>
                     </p>
                 </div>
                 
@@ -85,16 +86,13 @@
               </tr>
             </thead>
             <tbody>
-                {% for sensor in predio.sensor_set.all %}
-                  {% for consumo in sensor.consumo_set.all %}
-                    {% if consumo.tipo == "mensal" %}                
-                    <tr>
-                        <td>{{consumo.data}}</td>
-                        <td>{{consumo.total}}</td>
-                        <td>{{consumo.custo.FP}}</td>
-                      </tr>
-                    {% endif %}
-                  {%endfor%}     
+                
+                {%for consumo in consumos_mensais %}                          
+                  <tr>
+                    <td>{{consumo.data}}</td>
+                    <td>{{consumo.total}}</td>
+                    <td>{{consumo.custo.FP}}</td>
+                  </tr>                       
                 {%endfor%}                                 
             </tbody>
           </table>
@@ -140,22 +138,27 @@
             <div>
                 <strong> Consumos diários:</strong>
                 <br><br>
-                {% for consumo in sensor.consumo_set.all %}
-                {% if consumo.tipo == "diario" %}
-                <strong>Data:</strong> {{consumo.data.day}} / {{consumo.data.month}} / {{consumo.data.year}} <br>
-                <strong>Consumo total:</strong> {{consumo.total}}<br><br>
-                {%endif%}
+                {% for sensor in predio.sensor_set.all %}      
+                  {%for consumo in consumos_diarios %}
+                    {% if consumo.sensor.id == sensor.id %}
+          
+                    <strong>Data:</strong> {{consumo.data.day}} / {{consumo.data.month}} / {{consumo.data.year}} <br>
+                    <strong>Consumo total:</strong> {{consumo.total}}<br><br>
+                    {%endif%}
+                  {% endfor %}
                 {% endfor %}
                 <br>
             </div>
             <div>
                 <strong> Consumos mensais:</strong>
                 <br><br>
-                {% for consumo in sensor.consumo_set.all %}
-                {% if consumo.tipo == "mensal" %}
-                <strong>Data:</strong> {{consumo.data.day}} / {{consumo.data.month}} / {{consumo.data.year}} <br>
-                <strong>Consumo total:</strong> {{consumo.total}}<br><br>
-                {%endif%}
+                {% for sensor in predio.sensor_set.all %}      
+                  {%for consumo in consumos_mensais %}
+                    {% if consumo.sensor.id == sensor.id %}
+                    <strong>Data:</strong> {{consumo.data.day}} / {{consumo.data.month}} / {{consumo.data.year}} <br>
+                    <strong>Consumo total:</strong> {{consumo.total}}<br><br>
+                    {%endif%}
+                  {% endfor %}
                 {% endfor %}
             </div>
         </div>

@@ -22,12 +22,13 @@
                     <div>
                         <h5 class="card-title">Dados gerais</h5>
                         <p class="card-text" >
-                            <sapn>Meta: {{predio.meta}}</sapn><br>
-                            <sapn>População: {{predio.populacao}}</sapn><br>
-                            <sapn>Pavimentos: {{predio.pavimentos}}</sapn><br>
-                            <sapn>Pot. Inst.: {{predio.PotInst}}</sapn><br>
-                            <sapn>Geração F.V.: {{predio.geracaoFV}}</sapn><br>
-                            <sapn>Idade: {{predio.idade}}</sapn><br>
+                            <span>Meta: {{predio.meta}}             </span><br>
+                            <span>População: {{predio.populacao}}   </span><br>
+                            <span>Pavimentos: {{predio.pavimentos}} </span><br>
+                            <span>Pot. Inst.: {{predio.PotInst}}    </span><br>
+                            <span>Geração F.V.: {{predio.geracaoFV}}</span><br>
+                            <span>Idade: {{predio.idade}}           </span><br>
+                            <span>Trafifa Energética: {{predio.tarifaFP}}</span><br>
                         </p>
                     </div>
                     
@@ -81,39 +82,11 @@
                 <div class="d-flex">
                     <h4><a href="{% url 'swenergy:detalhes' sensor.id%}">{{sensor}}</a></h4>                    
                 </div>
-                <hr>
                 
-                Consumo do Mês:
-                <br><br>
-                {% for consumo in sensor.consumo_set.all %}
-                <strong>Data:</strong> {{consumo.data}} <br><strong>Consumo total:</strong> {{consumo.total}}<br><br>
                 {% endfor %}
-
-                {% endfor %}
+                <hr>
             </div>    
-            
-            <div style="display: flex; padding: 10%;">
-                    <div>    
-                        <h3> Consumos diários:</h3>
-                        <br>
-                        
-                        {% for consumo in consumos_diarios %}
-                        
-                        <div class="card border-info mb-3" style="max-width: 18rem; margin: 20px;">
-        
-                            <div class="card-header">
-                                <strong>Data:</strong> {{consumo.data}}                    
-                            </div>
-        
-                            <div class="card-body text-info">
-                            <h5 class="card-title"><strong>Consumo total:</strong> {{consumo.total}}</h5>                      
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div> 
-                        
-
-                </div>   
+              
         </fieldset>
     </section>  
     {% endblock %}

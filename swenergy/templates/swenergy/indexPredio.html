@@ -18,11 +18,11 @@
         function drawChart() {
           {% for sensor in predio.sensor_set.all %}
           var data = google.visualization.arrayToDataTable([
-            ["Data", "KWh", { role: "style" } ],
-            {% for consumo in sensor.consumo_set.all %}
-            {% if consumo.tipo == 'diario' %}
-            ['{{consumo.data.day}}/{{consumo.data.month}}', {{ consumo.total }}, "#ffd700"],
-            {% endif %}
+            ["Data", "KWh", { role: "style" } ],            
+            {%for consumo in consumos_diarios %}
+              {% if consumo.sensor.id == sensor.id %}
+                ['{{consumo.data.day}}/{{consumo.data.month}}', {{ consumo.total }}, "#ffd700"],
+              {% endif %}
             {% endfor %}
           ]);
     
@@ -47,10 +47,10 @@
           {% for sensor in predio.sensor_set.all %}
           var data = google.visualization.arrayToDataTable([
             ["Data", "KWh", { role: "style" } ],
-            {% for consumo in sensor.consumo_set.all %}
-            {% if consumo.tipo == 'mensal' %}
-            ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
-            {% endif %}
+            {%for consumo in consumos_mensais %}
+              {% if consumo.sensor.id == sensor.id %}
+                ['{{consumo.data}}', {{ consumo.total }}, "#ffd700"],
+              {% endif %}
             {% endfor %}
           ]);
     
